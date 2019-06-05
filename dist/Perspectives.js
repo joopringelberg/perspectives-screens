@@ -1,14 +1,5 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"));
-	else if(typeof define === 'function' && define.amd)
-		define(["react"], factory);
-	else {
-		var a = typeof exports === 'object' ? factory(require("react")) : factory(root["react"]);
-		for(var i in a) (typeof exports === 'object' ? exports : root)[i] = a[i];
-	}
-})(window, function(__WEBPACK_EXTERNAL_MODULE_react__) {
-return /******/ (function(modules) { // webpackBootstrap
+var LIB =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -100,24 +91,25 @@ return /******/ (function(modules) { // webpackBootstrap
 /*!*****************************!*\
   !*** ./src/Perspectives.js ***!
   \*****************************/
-/*! exports provided: default */
+/*! exports provided: PerspectivesSysteem */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return PerspectivesSysteem; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n// The screen for model:Perspectives$PerspectivesSysteem\n// a dummy for now.\n\nfunction PerspectivesSysteem() {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"Dit is het mooie scherm voor PerspectivesSysteem!\");\n}\n\n//# sourceURL=webpack:///./src/Perspectives.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PerspectivesSysteem\", function() { return PerspectivesSysteem; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n// The screen for model:Perspectives$PerspectivesSysteem\n// a dummy for now.\n\nfunction PerspectivesSysteem() {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"Dit is het mooie scherm voor PerspectivesSysteem!\");\n}\n\n//# sourceURL=webpack://LIB/./src/Perspectives.js?");
 
 /***/ }),
 
 /***/ "react":
 /*!************************!*\
-  !*** external "react" ***!
+  !*** external "React" ***!
   \************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = __WEBPACK_EXTERNAL_MODULE_react__;\n\n//# sourceURL=webpack:///external_%22react%22?");
+eval("module.exports = React;\n\n//# sourceURL=webpack://LIB/external_%22React%22?");
 
 /***/ })
 
 /******/ });
-});
+
+export const PerspectivesSysteem = LIB['PerspectivesSysteem'];

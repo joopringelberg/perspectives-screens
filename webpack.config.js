@@ -1,25 +1,28 @@
 const path = require("path");
+const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
 
 module.exports = {
   entry:
     { Perspectives: path.join(__dirname, "src/Perspectives.js" )
   },
-  // output: {path: path.join(__dirname, 'public'), filename: "bundle.js"},
   output: {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
-      libraryTarget: 'umd'
+      libraryTarget: 'var',
+      library: "LIB"
     },
   externals: {
-    react: 'react',
-    "react-bootstrap": 'react-bootstrap',
-    "perspectives-proxy": "perspectives-proxy",
-    "perspectives-react": "perspectives-react",
+    react: 'React',
+    // "react-dom": "ReactDOM",
+    // "react-bootstrap": 'react-bootstrap',
+    // "perspectives-proxy": "perspectives-proxy",
+    // "perspectives-react": "perspectives-react",
   },
   watch: false,
   mode: "development",
   target: "electron-renderer",
   plugins: [
+    new EsmWebpackPlugin()
     ],
   module: {
     rules: [
