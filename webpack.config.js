@@ -11,12 +11,12 @@ module.exports = {
       libraryTarget: 'var',
       library: "LIB"
     },
-  externals: {
-    react: 'React',
-    // "react-dom": "ReactDOM",
-    // "react-bootstrap": 'react-bootstrap',
-    // "perspectives-proxy": "perspectives-proxy",
-    // "perspectives-react": "perspectives-react",
+  externals:
+    { react: 'React'
+    , "perspectives-react": 'PerspectivesReact'
+    // , "react-dom": "ReactDOM"
+    // , "react-bootstrap": 'react-bootstrap',
+    // , "perspectives-proxy": "perspectives-proxy",
   },
   watch: false,
   mode: "development",
