@@ -6,7 +6,7 @@ module.exports = {
     { Perspectives: path.join(__dirname, "src/Perspectives.js" )
   },
   output: {
-      filename: '[name].js',
+      filename: 'screens.js',
       path: path.resolve(__dirname, 'dist'),
       libraryTarget: 'var',
       library: "LIB"

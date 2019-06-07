@@ -4,7 +4,7 @@
 import React from "react";
 import {Context} from "perspectives-react";
 
-export default function PerspectivesSysteem()
+export function buitenRolBeschrijving()
 {
   return <Context contexttype="model:Perspectives$PerspectivesSysteem" contextinstance="model:User$MijnSysteem">
       <p>Dit is het mooie scherm voor PerspectivesSysteem!</p>

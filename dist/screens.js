@@ -91,11 +91,22 @@ var LIB =
 /*!*****************************!*\
   !*** ./src/Perspectives.js ***!
   \*****************************/
-/*! exports provided: PerspectivesSysteem */
+/*! exports provided: buitenRolBeschrijving */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PerspectivesSysteem\", function() { return PerspectivesSysteem; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n// The screen for model:Perspectives$PerspectivesSysteem\n// a dummy for now.\n\nfunction PerspectivesSysteem() {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"Dit is het mooie scherm voor PerspectivesSysteem!\");\n}\n\n//# sourceURL=webpack://LIB/./src/Perspectives.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"buitenRolBeschrijving\", function() { return buitenRolBeschrijving; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var perspectives_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! perspectives-react */ \"perspectives-react\");\n/* harmony import */ var perspectives_react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(perspectives_react__WEBPACK_IMPORTED_MODULE_1__);\n// The screen for model:Perspectives$PerspectivesSysteem\n// a dummy for now.\n\n\nfunction buitenRolBeschrijving() {\n  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(perspectives_react__WEBPACK_IMPORTED_MODULE_1__[\"Context\"], {\n    contexttype: \"model:Perspectives$PerspectivesSysteem\",\n    contextinstance: \"model:User$MijnSysteem\"\n  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"p\", null, \"Dit is het mooie scherm voor PerspectivesSysteem!\"));\n}\n\n//# sourceURL=webpack://LIB/./src/Perspectives.js?");
+
+/***/ }),
+
+/***/ "perspectives-react":
+/*!************************************!*\
+  !*** external "PerspectivesReact" ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("module.exports = PerspectivesReact;\n\n//# sourceURL=webpack://LIB/external_%22PerspectivesReact%22?");
 
 /***/ }),
 
@@ -112,4 +123,4 @@ eval("module.exports = React;\n\n//# sourceURL=webpack://LIB/external_%22React%2
 
 /******/ });
 
-export const PerspectivesSysteem = LIB['PerspectivesSysteem'];
+export const buitenRolBeschrijving = LIB['buitenRolBeschrijving'];
