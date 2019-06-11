@@ -1,7 +1,7 @@
 {
-  "name": "inplace-screens",
+  "name": "perspectives-screens",
   "version": "1.0.0",
-  "description": "A collection of modules, each holding a React-based screen that can be loaded independently by InPlace.",
+  "description": "A collection of modules, each holding a React-based screen for a context of the base Perspectives model that can be loaded independently by InPlace.",
   "main": "index.js",
   "private": true,
   "scripts": {

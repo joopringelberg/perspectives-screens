@@ -54,11 +54,5 @@ module.exports = {
         use: [ 'style-loader', 'css-loader' ]
       }
     ]
-  },
-  resolve: {
-    alias: {
-      Public: path.resolve( __dirname, "public")
-    },
-    symlinks: false
   }
 };
