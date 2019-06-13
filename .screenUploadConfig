@@ -1,0 +1,5 @@
+module.exports =
+	{ database: "perspect_models"
+	, model: "model:Perspectives"
+	, output: "dist"
+	}

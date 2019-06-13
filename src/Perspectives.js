@@ -7,6 +7,6 @@ import {Context} from "perspectives-react";
 export function buitenRolBeschrijving()
 {
   return <Context contexttype="model:Perspectives$PerspectivesSysteem" contextinstance="model:User$MijnSysteem">
-      <p>Dit is het mooie scherm voor PerspectivesSysteem!</p>
+      <p>Dit is een fantastisch scherm voor PerspectivesSysteem!</p>
     </Context>
 }
