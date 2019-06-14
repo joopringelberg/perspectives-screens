@@ -1,7 +1,7 @@
-// The screen for model:Perspectives$PerspectivesSysteem
+// The screen for model:Perspectives$PerspectivesSysteem.
 
 import React from "react";
-import {Context, Rol, PSRol, BindRol, PSRolBinding} from "perspectives-react";
+import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView} from "perspectives-react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -29,13 +29,15 @@ export function buitenRolBeschrijving()
           </BindRol>
           <Col lg={6} className="border">
             <Rol rol="modellen">
-              <PSRol.Consumer>
-                {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("id", value.rolinstance)}>
-                  <Card.Body>
-                    <p>{value.rolinstance}</p>
-                  </Card.Body>
-                </Card>}
-              </PSRol.Consumer>
+              <View viewname="allProperties">
+                <PSView.Consumer>
+                  {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("id", value.rolinstance)}>
+                    <Card.Body>
+                      <p>{value.contextLabel}</p>
+                    </Card.Body>
+                  </Card>}
+                </PSView.Consumer>
+              </View>
             </Rol>
           </Col>
         </Row>
