@@ -1,7 +1,7 @@
 // The screen for model:Perspectives$PerspectivesSysteem.
 
 import React from "react";
-import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView} from "perspectives-react";
+import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView, RolBinding} from "perspectives-react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,23 +15,35 @@ export function buitenRolBeschrijving()
           <BindRol rol="modelsInUse">
             <PSRolBinding.Consumer>
               {value =>
-                <Col lg={6} onDragOver={ev => ev.preventDefault()} onDrop={ev => value.bindrol( ev.dataTransfer.getData("id") )} className="border">
+                <Col lg={6} onDragOver={ev => ev.preventDefault()} onDrop={ev => value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) )} className="border p-3">
+                  <h4>In gebruik</h4>
                     <Rol rol="modelsInUse">
-                      <div>
-                        <PSRol.Consumer>
-                        {value => <li key={value.rolinstance}>{value.rolinstance}</li>}
-                        </PSRol.Consumer>
-                      </div>
+                      <PSRol.Consumer>
+                        {value => <div draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
+                          <RolBinding>
+                            <View viewname="allProperties">
+                              <PSView.Consumer>
+                                {value => <Card>
+                                  <Card.Body>
+                                      <p>{value.contextLabel}</p>
+                                  </Card.Body>
+                                </Card>}
+                              </PSView.Consumer>
+                            </View>
+                          </RolBinding>
+                        </div>}
+                      </PSRol.Consumer>
                     </Rol>
                 </Col>
               }
             </PSRolBinding.Consumer>
           </BindRol>
-          <Col lg={6} className="border">
+          <Col lg={6} className="border p-3">
+            <h4>Beschikbaar</h4>
             <Rol rol="modellen">
               <View viewname="allProperties">
                 <PSView.Consumer>
-                  {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("id", value.rolinstance)}>
+                  {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
                     <Card.Body>
                       <p>{value.contextLabel}</p>
                     </Card.Body>
