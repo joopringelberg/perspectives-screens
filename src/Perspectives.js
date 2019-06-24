@@ -15,8 +15,12 @@ export function buitenRolBeschrijving()
           <BindRol rol="modelsInUse">
             <PSRolBinding.Consumer>
               {value =>
-                <Col lg={6} onDragOver={ev => ev.preventDefault()} onDrop={ev => value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) )} className="border p-3">
-                  <h4>In gebruik</h4>
+                <Col lg={6} className="border p-3"
+                    onDragOver={ev => ev.preventDefault()}
+                    onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
+                    onDragEnter={(ev) => ev.target.classList.add("border-primary") }
+                    onDragLeave={ev => ev.target.classList.remove("border-primary")}>
+                    <h4>In gebruik</h4>
                     <Rol rol="modelsInUse">
                       <PSRol.Consumer>
                         {value => <div draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
