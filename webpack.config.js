@@ -3,7 +3,8 @@ const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
 
 module.exports = {
   entry:
-    { Perspectives: path.join(__dirname, "src/Perspectives.js" )
+    { System: path.join(__dirname, "src/System.js" )
+    , TestBotActie: path.join(__dirname, "src/TestBotActie.js" )
   },
   output: {
       filename: '[name].js',
