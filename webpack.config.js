@@ -6,11 +6,12 @@ module.exports = {
     { Perspectives: path.join(__dirname, "src/Perspectives.js" )
   },
   output: {
-      filename: 'screens.js',
+      filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       libraryTarget: 'var',
       library: "LIB"
     },
+
   externals:
     { react: 'React'
     , "perspectives-react": 'PerspectivesReact'

@@ -1,18 +1,18 @@
-// The screen for model:Perspectives$PerspectivesSysteem.
+// The screen for model:System$PerspectivesSystem.
 
 import React from "react";
 import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView, RolBinding} from "perspectives-react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
+import Card from 'react-bootstrap/Card'; //1
 
-export function buitenRolBeschrijving()
+export function perspectivesSystem_User()
 {
-  return <Context contexttype="model:Perspectives$PerspectivesSysteem" contextinstance="model:User$MijnSysteem">
+  return <Context contexttype="model:System$PerspectivesSystem" contextinstance="model:User$MijnSysteem">
       <Container>
         <Row>
-          <BindRol rol="modelsInUse">
+          <BindRol rol="ModelsInUse">
             <PSRolBinding.Consumer>
               {value =>
                 <Col lg={6} className="border p-3"
@@ -21,7 +21,7 @@ export function buitenRolBeschrijving()
                     onDragEnter={(ev) => ev.target.classList.add("border-primary") }
                     onDragLeave={ev => ev.target.classList.remove("border-primary")}>
                     <h4>In gebruik</h4>
-                    <Rol rol="modelsInUse">
+                    <Rol rol="ModelsInUse">
                       <PSRol.Consumer>
                         {value => <div draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
                           <RolBinding>
@@ -29,7 +29,8 @@ export function buitenRolBeschrijving()
                               <PSView.Consumer>
                                 {value => <Card>
                                   <Card.Body>
-                                      <p>{value.contextLabel}</p>
+                                      <p>{value.Name}</p>
+                                      <p>{value.Description}</p>
                                   </Card.Body>
                                 </Card>}
                               </PSView.Consumer>
@@ -44,12 +45,13 @@ export function buitenRolBeschrijving()
           </BindRol>
           <Col lg={6} className="border p-3">
             <h4>Beschikbaar</h4>
-            <Rol rol="modellen">
+            <Rol rol="Modellen">
               <View viewname="allProperties">
                 <PSView.Consumer>
                   {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
                     <Card.Body>
-                      <p>{value.contextLabel}</p>
+                      <p>{value.Name}</p>
+                      <p>{value.Description}</p>
                     </Card.Body>
                   </Card>}
                 </PSView.Consumer>
