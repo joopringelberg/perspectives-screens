@@ -1,4 +1,4 @@
 module.exports =
-	{ database: "perspect_models"
+	{ databases: ["perspect_models", "repository"]
 	, output: "dist"
 	}

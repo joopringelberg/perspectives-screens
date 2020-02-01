@@ -1,14 +1,13 @@
-import React, { Component } from "react"; // 4
+import React, { Component } from "react"; // 39
 
 import {
-    Context,
     Rol,
-    RolBinding,
-    ContextOfRole,
     SetProperty,
     CreateContext,
     DeleteContext,
-    ViewOnInternalRole,
+    ContextOfRole,
+    ViewOnExternalRole,
+    ExternalViewOfBoundContext,
     PSView} from "perspectives-react";
 
 import Button from 'react-bootstrap/Button';
@@ -20,7 +19,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 
-function TestBotActieScreen()
+// model:TestBotActie$Tests$Gebruiker
+export function tests_Tester()
 {
   return (<Container>
             <Row>
@@ -30,24 +30,18 @@ function TestBotActieScreen()
             </Row>
             <Row>
               <Form>
-                <Context contexttype="model:Perspectives$PerspectivesSysteem" contextinstance="model:User$MijnSysteem">
-                  <Rol rol="zaken">
-                    <RolBinding>
-                      <ContextOfRole>
-                        <ViewOnInternalRole viewname="allProps">
-                          <TestBotActie/>
-                        </ViewOnInternalRole>
-                      </ContextOfRole>
-                    </RolBinding>
-                  </Rol>
-                  <Card>
-                    <Card.Body>
-                      <CreateContext rolname="zaken" contextname="model:TestBotActie$Test">
-                        <CreateButton/>
-                      </CreateContext>
-                    </Card.Body>
-                  </Card>
-                </Context>
+                <Rol rol="TestInstances">
+                  <ExternalViewOfBoundContext viewname="allProperties">
+                    <TestBotActie/>
+                  </ExternalViewOfBoundContext>
+                </Rol>
+                <Card>
+                  <Card.Body>
+                    <CreateContext rolname="TestInstances" contextname="model:TestBotActie$Test">
+                      <CreateButton/>
+                    </CreateContext>
+                  </Card.Body>
+                </Card>
               </Form>
             </Row>
         </Container>);
@@ -62,18 +56,26 @@ function TestBotActie (props)
               <Form.Group as={Row} controlId="testBotActie">
                 <Form.Label column sm="8">Afhankelijke property</Form.Label>
                 <Col sm="4">
-                  <Form.Control readOnly={true} plaintext="true" value={value.v2}></Form.Control>
+                  <Form.Control readOnly={true} plaintext="true" value={value.propval("V2")}></Form.Control>
                 </Col>
               </Form.Group>
-              <SetProperty propertyname="trigger">
+              <Form.Group as={Row} controlId="propsEqual">
+                <Form.Label column sm="8">Zijn properties gelijk?</Form.Label>
+                <Col sm="4">
+                  <Form.Control readOnly={true} plaintext="true" value={value.propval("PropsEqual")}></Form.Control>
+                </Col>
+              </Form.Group>
+              <SetProperty propertyname="Trigger">
                 <TriggerInput/>
               </SetProperty>
-              <SetProperty propertyname="v1">
+              <SetProperty propertyname="V1">
                 <V1Input/>
               </SetProperty>
-              <DeleteContext contextinstance={value.contextinstance}>
-                <DeleteButton/>
-              </DeleteContext>
+              <ContextOfRole>
+                <DeleteContext>
+                  <DeleteButton/>
+                </DeleteContext>
+              </ContextOfRole>
             </Card.Body>
           </Card>
         }
@@ -84,7 +86,7 @@ function TestBotActie (props)
 function TriggerInput (props)
 {
   return (
-    <Form.Group as={Row} controlId="triggerInput">
+    <Form.Group as={Row} controlId="TriggerInput">
       <Col sm="8">
         <Form.Label>Actie aan of uit?</Form.Label>
         <Form.Text className="text-muted">
@@ -116,7 +118,10 @@ function V1Input (props)
 
 function CreateButton (props)
 {
-  const ctxt = {"interneProperties": {"model:TestBotActie$Test$binnenRolBeschrijving$trigger": ["true"]}};
+  const ctxt = {
+    "rollen": { "model:TestBotActie$Test$Tester":  [ { "properties": {}, "binding": "usr:Me" } ] },
+    "externeProperties": {"model:TestBotActie$Test$External$Trigger": ["true"]}
+  };
   return (<Button variant="primary" onClick={e => props.create(ctxt)}>Voeg een test toe</Button>);
 }
 
@@ -124,5 +129,3 @@ function DeleteButton (props)
 {
   return (<Button variant="danger" onClick={e => props.delete()}>Verwijder</Button>);
 }
-
-export default TestBotActieScreen

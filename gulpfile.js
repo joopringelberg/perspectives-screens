@@ -5,7 +5,7 @@ const screenuploader = require('screenuploader');
 function upload() {
 	return gulp
 		.src( config.output + "/*.js" )
-		.pipe( screenuploader.uploadAttachment( config.database ) );
+		.pipe( screenuploader.uploadAttachment( config.databases ) );
 }
 
 exports.default = function() {
