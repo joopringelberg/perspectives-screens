@@ -8,7 +8,8 @@ import {
     ContextOfRole,
     ViewOnExternalRole,
     ExternalViewOfBoundContext,
-    PSView} from "perspectives-react";
+    PSView,
+    PSRol} from "perspectives-react";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -127,5 +128,10 @@ function CreateButton (props)
 
 function DeleteButton (props)
 {
+  // return (
+    // <PSRol.Consumer>
+    //   {value => <Button variant="danger" onClick={e => {props.delete(); value.removeRol()}}>Verwijder</Button>}
+    // </PSRol.Consumer>
+    // );
   return (<Button variant="danger" onClick={e => props.delete()}>Verwijder</Button>);
 }
