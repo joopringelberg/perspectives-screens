@@ -1,17 +1,6 @@
-import React, { Component } from "react"; // 21
+import React, { Component } from "react"; // ###44###
 
-import {
-    Rol,
-    SetProperty,
-    CreateContext,
-    DeleteContext,
-    ContextOfRole,
-    ViewOnExternalRole,
-    ExternalViewOfBoundContext,
-    RolBinding,
-    View,
-    PSView,
-    PSRol} from "perspectives-react";
+import * as PR from "perspectives-react";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -21,6 +10,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Tab from 'react-bootstrap/Tab';
+import Nav from 'react-bootstrap/Nav';
+
 
 // model:SimpleChat$ChatApp$Chatter
 export function chatApp_Chatter()
@@ -31,55 +23,68 @@ export function chatApp_Chatter()
                 <h1>Simple chats</h1>
               </header>
             </Row>
+
             <Row>
-              <Col lg={3}>
-                <Rol rol="Chats">
-                  <PSRol.Consumer>
-                    {value =>
-                      <Row>
-                        <RolBinding>
-                          <View viewname="allProperties">
-                            <PSView.Consumer>
-                              {value => <Card>
-                                <Card.Body>
-                                  <p>Chat met: {value.propval("WithPartner")}</p>
-                                </Card.Body>
-                              </Card>}
-                            </PSView.Consumer>
-                          </View>
-                        </RolBinding>
-                      </Row>
-                    }
-                  </PSRol.Consumer>
-                </Rol>
+              <Col>
+              <Tab.Container id="left-tabs-chats" defaultActiveKey="first" mountOnEnter={true}>
                 <Row>
-                  <Card>
-                    <Card.Body>
-                      <CreateContext rolname="Chats" contextname="model:SimpleChat$Chat">
-                        <CreateButton/>
-                      </CreateContext>
-                    </Card.Body>
-                  </Card>
+                  <Col lg={3}>
+                    <Nav variant="pills" className="flex-column">
+                      <PR.Rol rol="Chats">
+                        <PR.ExternalViewOfBoundContext viewname="allProperties">
+                          <PR.PSView.Consumer>
+                            {value => <Nav.Item>
+                                <Nav.Link eventKey={value.rolinstance}>Chat met: {value.propval("WithPartner")}</Nav.Link>
+                              </Nav.Item>}
+                          </PR.PSView.Consumer>
+                        </PR.ExternalViewOfBoundContext>
+                      </PR.Rol>
+                    </Nav>
+                  </Col>
+                  <Col lg={9}>
+                    <Tab.Content>
+                      <PR.Rol rol="Chats">
+                        <PR.RolBinding>
+                          <PR.PSRol.Consumer>
+                            {value => <Tab.Pane eventKey={value.rolinstance}>
+                                <PR.Screen rolinstance={value.rolinstance}/>
+                              </Tab.Pane>
+                            }
+                          </PR.PSRol.Consumer>
+                        </PR.RolBinding>
+                      </PR.Rol>
+                    </Tab.Content>
+                  </Col>
                 </Row>
-              </Col>
-              <Col lg={6} className="border p-3">
+              </Tab.Container>
               </Col>
               <Col lg={3} className="border p-3">
-                <Rol rol="PotentialPartners">
-                  <View viewname="allProperties">
+                <PR.Rol rol="PotentialPartners">
+                  <PR.View viewname="allProperties">
                     <Row>
-                      <PSView.Consumer>
-                        {value => <Card>
+                      <PR.PSView.Consumer>
+                        {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
                           <Card.Body>
                             <p>{value.propval("Voornaam")}</p>
                           </Card.Body>
                         </Card>}
-                      </PSView.Consumer>
+                      </PR.PSView.Consumer>
                     </Row>
-                  </View>
-                </Rol>
+                  </PR.View>
+                </PR.Rol>
               </Col>
             </Row>
+            <Row>
+              <Card>
+                <Card.Body>
+                  <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat">
+                    <CreateButton/>
+                  </PR.CreateContext>
+                </Card.Body>
+              </Card>
+            </Row>
+
+
         </Container>);
 }
 
@@ -90,4 +95,54 @@ function CreateButton (props)
     "externeProperties": {}
   };
   return (<Button variant="primary" onClick={e => props.create(ctxt)}>Nieuwe chat</Button>);
+}
+
+// Context is Chat.
+export function chat_Initiator()
+{
+  return (<Container>
+      <Form>
+        <Form.Group as={Row} controlId="initiator">
+          <Form.Label column sm="3">Me:</Form.Label>
+          <Col sm="9">
+            <PR.Rol rol="Initiator">
+              <PR.View viewname="allProperties">
+                <PR.SetProperty propertyname="MyText">
+                  <Utterance/>
+                </PR.SetProperty>
+              </PR.View>
+            </PR.Rol>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="partner">
+          <Form.Label column sm="3">Other:</Form.Label>
+          <Col sm="9">
+            <PR.Rol rol="Partner">
+              <PR.PSRolBinding.Consumer>
+              {value =>
+                <Card>
+                  <Card.Body onDragOver={ev => ev.preventDefault()}
+                    onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
+                    onDragEnter={(ev) => ev.target.classList.add("border-primary") }
+                    onDragLeave={ev => ev.target.classList.remove("border-primary")}>
+                    <p>Drop card here! {value.rolinstance}</p>
+                  </Card.Body>
+                </Card>
+              }
+              </PR.PSRolBinding.Consumer>
+              <PR.View viewname="allProperties">
+                <PR.SetProperty propertyname="MyText">
+                  <Utterance/>
+                </PR.SetProperty>
+              </PR.View>
+            </PR.Rol>
+          </Col>
+        </Form.Group>
+      </Form>
+    </Container>)
+}
+
+function Utterance(props)
+{
+  return <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />;
 }

@@ -1,4 +1,4 @@
 module.exports =
-	{ databases: ["cor_models", "repository"]
+	{ databases: ["cor_models"]
 	, output: "dist"
 	}
