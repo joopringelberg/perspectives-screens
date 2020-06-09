@@ -1,4 +1,4 @@
 module.exports =
-	{ databases: [ "repository"]
+	{ databases: [ "repository", "joop_models", "cor_models"]
 	, output: "dist"
 	}
