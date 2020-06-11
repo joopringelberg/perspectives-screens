@@ -39,10 +39,16 @@ export function chatApp_Chatter()
                   <h4>Chats</h4>
                 </Col>
                 <Col className="text-right">
-                  <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat" donotbind={true}>
-                    {/*On creating a context, we set the selectedChat.*/}
-                    <CreateButton_/>
-                  </PR.CreateContext>
+                  <PR.Rol rol="Chatter">
+                    <PR.PSRol.Consumer>
+                      {
+                        props => <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat" donotbind={true}>
+                                   {/*On creating a context, we set the selectedChat.*/}
+                                   <CreateButton_ binding={props.rolinstance}/>
+                                 </PR.CreateContext>
+                      }
+                    </PR.PSRol.Consumer>
+                  </PR.Rol>
                 </Col>
               </Row>
               {/*The actual list of chats.*/}
@@ -83,8 +89,9 @@ export function chatApp_Chatter()
 
   function CreateButton_ (props)
   {
+    // How do we get the id of the ChatApp$Chatter role to bind to?
     const ctxt = {
-      "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {"model:SimpleChat$WithText$TextWriter$MyText": ["Your message here!"]}, "binding": "usr:Me" } ] },
+      "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {"model:SimpleChat$WithText$TextWriter$MyText": ["Your message here!"]}, "binding": props.binding } ] },
       "externeProperties": {}
     };
     return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat([erole]))}>Start a chat</Button>);
@@ -109,6 +116,7 @@ export function chat_Initiator()
 {
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
   const [invitationRequired, setInvitationRequired] = useState(false);
+
   function Title(props)
   {
     return <Form>
@@ -141,7 +149,6 @@ export function chat_Initiator()
           <Row>
             <Col><h4>This chat's partner</h4></Col>
           </Row>
-            <PR.Rol rol="Partner">
               <PR.PSRolBinding.Consumer>
                 {value =>
                   <Card>
@@ -155,7 +162,6 @@ export function chat_Initiator()
                 }
               </PR.PSRolBinding.Consumer>
               <p></p>
-            </PR.Rol>
           <Row>
           </Row>
         </Col>
@@ -210,23 +216,52 @@ export function chat_Initiator()
   {
     if (invitationRequired)
     {
-      return <Row>
-          <Col>
-            <PR.ViewOnExternalRole viewname="allProperties">
-              <PR.PSView.Consumer>
-                {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"))}>
-                  <Card.Body>
-                    <p>I'm an invitation. Send me to someone - but only to one person, ever!</p>
-                  </Card.Body>
-                </Card>}
-              </PR.PSView.Consumer>
-            </PR.ViewOnExternalRole>
-          </Col>
-          <Col><p>Send this invitation to the person you want to invite to connect, e.g. by email. Drag it to the desktop or directly into a mail message. <Explanation/></p></Col>
-        </Row>
+      return <>
+          <Message/>
+          <Row>
+            <Col>
+              <PR.ViewOnExternalRole viewname="allProperties">
+                <PR.PSView.Consumer>
+                  {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"))}>
+                    <Card.Body>
+                      <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
+                    </Card.Body>
+                  </Card>}
+                </PR.PSView.Consumer>
+              </PR.ViewOnExternalRole>
+            </Col>
+            <Col><p>Send this invitation to the person you want to invite to connect, e.g. by email. Drag it to the desktop or directly into a mail message.</p></Col>
+          </Row>
+        </>
     }
     else return <div/>
   }
+
+  function Message()
+  {
+    return <>
+            <Form.Group as={Row}>
+              <Form.Label column sm="3">Message:</Form.Label>
+              <Col sm="9">
+                <PR.ExternalRole>
+                  <PR.View viewname="allProperties">
+                    <PR.SetProperty propertyname="Message">
+                      <PR.PSProperty.Consumer>
+                        {props => <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
+                      </PR.PSProperty.Consumer>
+                    </PR.SetProperty>
+                  </PR.View>
+                </PR.ExternalRole>
+              </Col>
+              <Col sm="9">
+                <Form.Text className="text-muted">
+                  Enter a text message to invite your contact with.
+                </Form.Text>
+              </Col>
+            </Form.Group>
+          </>
+  }
+
 
   function Explanation ()
   {
@@ -236,25 +271,76 @@ export function chat_Initiator()
             placement="right"
             overlay={ <Tooltip className="bg-danger">
                         By creating an invitation, you've set up a channel of communication to be used by exactly one other Perspectives user.
-                        Confusion will arise if two others try to use the same channel you've set up!
+                        Confusion will arise more people try to use the same channel!
                       </Tooltip>} >
             <a className="text-danger" ref={target} onClick={() => setShow(!show)}>Why?</a>
           </OverlayTrigger>
   }
 
+  function Utterance(props)
+  {
+    return <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />;
+  }
+
+  function Response(props)
+  {
+    return <Form.Control defaultValue={props.defaultvalue} readOnly/>;
+  }
+
+  function Chat()
+  {
+    return <Form>
+            <Form.Group as={Row} controlId="initiator">
+              <Form.Label column sm="3">Me:</Form.Label>
+              <Col sm="9">
+                <PR.Rol rol="Me">
+                  <PR.View viewname="allProperties">
+                    <PR.SetProperty propertyname="MyText">
+                      <Utterance/>
+                    </PR.SetProperty>
+                  </PR.View>
+                </PR.Rol>
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="partner">
+              <Form.Label column sm="3">You:</Form.Label>
+              <Col sm="9">
+                <PR.Rol rol="You">
+                  <PR.View viewname="allProperties">
+                    <PR.PSView.Consumer>
+                      {value => <Nav.Item>
+                          <Card className="mb-2">
+                            <Card.Body>
+                              <Card.Text>{value.propval("MyText")}</Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Nav.Item>}
+                    </PR.PSView.Consumer>
+                  </PR.View>
+                </PR.Rol>
+              </Col>
+            </Form.Group>
+          </Form>
+  }
+
   return <Container className="bg-light border rounded rounded p-3">
       <Title/>
-      <SelectContact/>
-      <Row>
-        <PR.ViewOnExternalRole viewname="allProperties">
-          <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
-            <PR.PSProperty.Consumer>
-              {setInvitation}
-            </PR.PSProperty.Consumer>
-          </PR.SetProperty>
-        </PR.ViewOnExternalRole>
-      </Row>
-      <Invitation/>
+        <PR.Rol rol="Partner">
+          <>
+            <SelectContact/>
+            <Row>
+              <PR.ViewOnExternalRole viewname="allProperties">
+                <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
+                  <PR.PSProperty.Consumer>
+                    {setInvitation}
+                  </PR.PSProperty.Consumer>
+                </PR.SetProperty>
+              </PR.ViewOnExternalRole>
+            </Row>
+            <Invitation/>
+          </>
+          <Chat/>
+        </PR.Rol>
     </Container>
 }
 
@@ -448,14 +534,4 @@ function SerialiseInput (props)
           onChange={e => props.setvalue((e.target.value == "on").toString())} />
       </Col>
     </Form.Group>)
-}
-
-function Utterance(props)
-{
-  return <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />;
-}
-
-function Response(props)
-{
-  return <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} readOnly/>;
 }
