@@ -17,8 +17,8 @@ module.exports = {
   externals:
     { react: 'React'
     , "perspectives-react": 'PerspectivesReact'
-    // , "react-dom": "ReactDOM"
-    // , "react-bootstrap": 'react-bootstrap',
+    , "react-dom": "ReactDOM"
+    , "react-bootstrap": 'react-bootstrap',
     // , "perspectives-proxy": "perspectives-proxy",
   },
   watch: false,
