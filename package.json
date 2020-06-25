@@ -5,6 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "build": "webpack",
     "watch": "webpack --watch",
     "symlinks": "./createPerspectivesLinks.sh"
   },
