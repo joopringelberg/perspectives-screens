@@ -15,10 +15,12 @@ module.exports = {
     },
 
   externals:
-    { react: 'React'
+    { "react": "React"
     , "perspectives-react": 'PerspectivesReact'
     , "react-dom": "ReactDOM"
-    , "react-bootstrap": 'react-bootstrap',
+    , "react-bootstrap": "ReactBootstrap"
+    , "@primer/octicons-react": "PrimerOcticonsReact"
+    , "prop-types": "PropTypes"
     // , "perspectives-proxy": "perspectives-proxy",
   },
   watch: false,

@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###63###
+import React, { Component, useState, useRef } from "react"; // ###64###
 
 import * as PR from "perspectives-react";
 
@@ -112,6 +112,12 @@ export function chatApp_Chatter()
   }
 }
 
+function handleKeyDown(event) {
+    if (event.keyCode === 13 ) {
+      event.preventDefault();
+    }
+  }
+
 export function chat_Initiator()
 {
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
@@ -119,7 +125,7 @@ export function chat_Initiator()
 
   function Title(props)
   {
-    return <Form>
+    return <Form onKeyDown={handleKeyDown}>
             <Form.Group as={Row} controlId="chatTitle">
               <Form.Label column sm="3">Title:</Form.Label>
               <Col sm="9">
@@ -289,7 +295,7 @@ export function chat_Initiator()
 
   function Chat()
   {
-    return <Form>
+    return <Form onKeyDown={handleKeyDown}>
             <Form.Group as={Row} controlId="initiator">
               <Form.Label column sm="3">Me:</Form.Label>
               <Col sm="9">
@@ -432,7 +438,7 @@ function CreateButton (props)
 export function chat_Initiator_()
 {
   return (<Container>
-      <Form>
+      <Form onKeyDown={handleKeyDown}>
         <Form.Group as={Row} controlId="initiator">
           <Form.Label column sm="3">Me:</Form.Label>
           <Col sm="9">

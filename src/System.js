@@ -1,6 +1,6 @@
-// The screen for model:System$PerspectivesSystem. 14
+// The screen for model:System$PerspectivesSystem. 20
 
-import React from "react";
+const React = require("react");
 import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView, RolBinding, ExternalRole} from "perspectives-react";
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -80,11 +80,17 @@ function Message()
           </Form.Group>
 }
 
+function handleKeyDown(event) {
+    if (event.keyCode === 13 ) {
+      event.preventDefault();
+    }
+  }
+
 export function invitation_Guest()
 {
   return (<Container>
     <Message/>
-    <Form>
+    <Form onKeyDown={handleKeyDown}>
       <Form.Group as={Row} controlId="initiator" className="align-items-center">
         <Col sm="4">
           <Rol rol="Guest">
