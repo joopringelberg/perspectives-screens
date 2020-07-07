@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 20
+// The screen for model:System$PerspectivesSystem. 24
 
 const React = require("react");
 import {Context, Rol, PSRol, BindRol, PSRolBinding, View, PSView, RolBinding, ExternalRole} from "perspectives-react";
@@ -19,7 +19,7 @@ export function perspectivesSystem_User()
             {value =>
               <Col lg={6} className="border p-3"
                   onDragOver={ev => ev.preventDefault()}
-                  onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
+                  onDrop={ev => {value.checkbinding( JSON.parse( ev.dataTransfer.getData("PSRol") ), function(){} ); ev.target.classList.remove("border-primary")}}
                   onDragEnter={(ev) => ev.target.classList.add("border-primary") }
                   onDragLeave={ev => ev.target.classList.remove("border-primary")}>
                   <h4>In use</h4>
