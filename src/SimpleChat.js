@@ -20,9 +20,6 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 const { ipcRenderer } = require('electron');
 
-const fs = require('fs');
-const process = require('process');
-
 import "./SimpleChat.css";
 
 // model:SimpleChat$ChatApp$Chatter
@@ -509,21 +506,9 @@ export {chat_Partner}
 
 function createFile(ev, text)
 {
-  // Save the file. Mode is read and write, see https://nodejs.org/api/fs.html#fs_file_modes.
-  // flag is create and write, see https://nodejs.org/api/fs.html#fs_file_system_flags.
-  const path = process.cwd() + "/public/invitation.json"
-  fs.writeFile(path, text, {mode: 0o666, flag: "w"},function(err)
-    {
-      if (err)
-      {
-        throw(err);
-      }
-      else {
-        // Then call the webContents.startDrag(item) API (see: https://www.electronjs.org/docs/tutorial/native-file-drag-drop).
-        // ev.preventDefault()
-        ipcRenderer.send('ondragstart', path)
-      }
-    });
+	ipcRenderer.invoke('createfile', text).then((path) => {
+  		ipcRenderer.send('ondragstart', path)
+		});
 }
 
 function SerialiseInput (props)
