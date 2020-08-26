@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###64###
+import React, { Component, useState, useRef } from "react"; // ###66###
 
 import * as PR from "perspectives-react";
 
@@ -19,6 +19,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
 const { ipcRenderer } = require('electron');
+const fs = require('fs');
 
 import "./SimpleChat.css";
 
@@ -29,7 +30,7 @@ export function chatApp_Chatter()
   const [selectedChat, setSelectedChat] = useState([]);
   function listOfChats()
   {
-    return (<Container className="border border-secondary rounded p-3 mt-3">
+    return (<Container className="border border-secondary rounded p-3 mt-3"  role="region" aria-roledescription="SimpleChat App">
               {/*The header, including a button to create a new chat instance.*/}
               <Row>
                 <Col>
@@ -119,11 +120,13 @@ export function chat_Initiator()
 {
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
   const [invitationRequired, setInvitationRequired] = useState(false);
+  const [invitationPath, setInvitationPath] = useState( ipcRenderer.sendSync('invitationpath') );
+
+  // ipcRenderer.invoke('invitationpath').then( (path) => { setInvitationPath(path)});
 
   function Title(props)
   {
-    return <Form onKeyDown={handleKeyDown}>
-            <Form.Group as={Row} controlId="chatTitle">
+    return <Form.Group as={Row} controlId="chatTitle">
               <Form.Label column sm="3">Title:</Form.Label>
               <Col sm="9">
                 <PR.ExternalRole>
@@ -142,7 +145,6 @@ export function chat_Initiator()
                 </Form.Text>
               </Col>
             </Form.Group>
-          </Form>
   }
 
   function SelectContact()
@@ -155,8 +157,8 @@ export function chat_Initiator()
               <PR.PSRolBinding.Consumer>
                 {value =>
                   <Card>
-                    <Card.Body onDragOver={ev => ev.preventDefault()}
-                      onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
+                    <Card.Body dropeffect="reference" onDragOver={ev => ev.preventDefault()}
+                      onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary"); ev.target.setAttribute("grab", "supported");}}
                       onDragEnter={(ev) => ev.target.classList.add("border-primary") }
                       onDragLeave={ev => ev.target.classList.remove("border-primary")}>
                       <p>Select a contact card on the right and drop it here to start chatting.</p>
@@ -173,13 +175,13 @@ export function chat_Initiator()
             <Col><h4>Your contacts</h4></Col>
           </Row>
           <Row>
-            <Col>
+            <Col aria-activedescendant="">
               <PR.Rol rol="PotentialPartners">
                 <p>You seem to have no contacts. Try inviting someone!</p>
                 <PR.View viewname="allProperties">
                   <Row>
                     <PR.PSView.Consumer>
-                      {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))} className="card">
+                      {value => <Card grab="supported" draggable key={value.rolinstance} onDragStart={ev => startDragging(ev, value)} className="card">
                         <Card.Body>
                           <p>{value.propval("Voornaam")}</p>
                         </Card.Body>
@@ -192,6 +194,13 @@ export function chat_Initiator()
           </Row>
         </Col>
       </Row>
+  }
+
+  function startDragging(ev, value)
+  {
+    // ARIA
+    ev.target.setAttribute("grab", "true");
+    return ev.dataTransfer.setData("PSRol", JSON.stringify(value))
   }
 
   function requireInvitation(props)
@@ -225,7 +234,7 @@ export function chat_Initiator()
             <Col>
               <PR.ViewOnExternalRole viewname="allProperties">
                 <PR.PSView.Consumer>
-                  {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"))}>
+                  {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"), invitationPath)}>
                     <Card.Body>
                       <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
                     </Card.Body>
@@ -431,85 +440,34 @@ function CreateButton (props)
   return (<Button variant="light" onClick={e => props.create(ctxt)}>Start a chat</Button>);
 }
 
-// Context is Chat.
-export function chat_Initiator_()
-{
-  return (<Container>
-      <Form onKeyDown={handleKeyDown}>
-        <Form.Group as={Row} controlId="initiator">
-          <Form.Label column sm="3">Me:</Form.Label>
-          <Col sm="9">
-            <PR.Rol rol="Me">
-              <PR.View viewname="allProperties">
-                <PR.SetProperty propertyname="MyText">
-                  <Utterance/>
-                </PR.SetProperty>
-              </PR.View>
-            </PR.Rol>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} controlId="partner">
-          <Form.Label column sm="3">Other:</Form.Label>
-          <Col sm="9">
-            <PR.Rol rol="You">
-              <PR.PSRolBinding.Consumer>
-              {value =>
-                <Card>
-                  <Card.Body onDragOver={ev => ev.preventDefault()}
-                    onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
-                    onDragEnter={(ev) => ev.target.classList.add("border-primary") }
-                    onDragLeave={ev => ev.target.classList.remove("border-primary")}>
-                    <p>Drop card here! {value.rolinstance}</p>
-                  </Card.Body>
-                </Card>
-              }
-              </PR.PSRolBinding.Consumer>
-              <PR.View viewname="allProperties">
-                <PR.PSView.Consumer>
-                  {value => <Nav.Item>
-                      <Card bg="info" className="mb-2">
-                        <Card.Body>
-                          <Card.Text>{value.propval("MyText")}</Card.Text>
-                        </Card.Body>
-                      </Card>
-                    </Nav.Item>}
-                </PR.PSView.Consumer>
-              </PR.View>
-            </PR.Rol>
-          </Col>
-        </Form.Group>
-        <PR.ViewOnExternalRole viewname="allProperties">
-          <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
-            <SerialiseInput/>
-            <PR.PSView.Consumer>
-              {value => <Form.Group as={Row} controlId="SerialisedContext">
-                <Form.Control readOnly={true} plaintext="true" value={value.propval("SerialisedInvitation")}></Form.Control>
-              </Form.Group>}
-            </PR.PSView.Consumer>
-            <PR.PSView.Consumer>
-              {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"))}>
-                <Card.Body>
-                  <p>Invitation</p>
-                </Card.Body>
-              </Card>}
-            </PR.PSView.Consumer>
-
-          </PR.SetProperty>
-        </PR.ViewOnExternalRole>
-      </Form>
-    </Container>)
-}
-
 const chat_Partner = chat_Initiator
 
 export {chat_Partner}
 
-function createFile(ev, text)
+// function createFile(ev, text)
+// {
+//   console.log("invoking createfile");
+// 	ipcRenderer.invoke('createfile', text).then((path) => {
+//       console.log("invoking ondragstart with " + path);
+//   		ipcRenderer.send('ondragstart', path)
+// 		});
+// }
+
+function createFile(ev, text, path)
 {
-	ipcRenderer.invoke('createfile', text).then((path) => {
-  		ipcRenderer.send('ondragstart', path)
-		});
+  fs.writeFile(path, text, {mode: 0o666, flag: "w"},function(err)
+    {
+      if (err)
+      {
+        throw(err);
+      }
+      else {
+        // ev.preventDefault()
+        ipcRenderer.send('ondragstart', path)
+      }
+    });
 }
+
 
 function SerialiseInput (props)
 {

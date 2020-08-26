@@ -18,7 +18,7 @@ module.exports = {
     { "react": "React"
     , "perspectives-react": 'PerspectivesReact'
     , "react-dom": "ReactDOM"
-    , "react-bootstrap": "ReactBootstrap"
+    // , "react-bootstrap": "ReactBootstrap"
     , "@primer/octicons-react": "PrimerOcticonsReact"
     , "prop-types": "PropTypes"
     // , "perspectives-proxy": "perspectives-proxy",
@@ -48,7 +48,8 @@ module.exports = {
             options: {
               presets: ['@babel/preset-env', "@babel/preset-react"],
               plugins: [
-                '@babel/plugin-proposal-object-rest-spread'
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/plugin-syntax-dynamic-import'
               ]
             }
           }

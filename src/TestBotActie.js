@@ -23,7 +23,7 @@ import Card from 'react-bootstrap/Card';
 // model:TestBotActie$Tests$Gebruiker
 export function tests_Tester()
 {
-  return (<Container>
+  return (<Container role="region" aria-roledescription="TestBotAction App">
             <Row>
               <header className="App-header">
                 <h1>Actie voorbeeld formulier</h1>
@@ -130,7 +130,7 @@ function DeleteButton (props)
 {
   // return (
     // <PSRol.Consumer>
-    //   {value => <Button variant="danger" onClick={e => {props.delete(); value.removeRol()}}>Verwijder</Button>}
+    //   {value => <Button variant="danger" onClick={e => {props.delete(); value.removerol()}}>Verwijder</Button>}
     // </PSRol.Consumer>
     // );
   return (<Button variant="danger" onClick={e => props.delete()}>Verwijder</Button>);
