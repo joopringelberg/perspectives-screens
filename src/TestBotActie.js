@@ -11,14 +11,7 @@ import {
     PSView,
     PSRol} from "perspectives-react";
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
+import { Button, Form, ToggleButtonGroup, ToggleButton, Container, Row, Col, Card } from "react-bootstrap";
 
 // model:TestBotActie$Tests$Gebruiker
 export function tests_Tester()

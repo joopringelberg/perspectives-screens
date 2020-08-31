@@ -11,17 +11,16 @@ module.exports = {
       filename: '[name].js',
       path: path.resolve(__dirname, 'dist'),
       libraryTarget: 'var',
-      library: "LIB"
+      library: "perspectivesScreens"
     },
 
   externals:
     { "react": "React"
-    , "perspectives-react": 'PerspectivesReact'
     , "react-dom": "ReactDOM"
-    // , "react-bootstrap": "ReactBootstrap"
+    , "react-bootstrap": "ReactBootstrap"
     , "@primer/octicons-react": "PrimerOcticonsReact"
     , "prop-types": "PropTypes"
-    // , "perspectives-proxy": "perspectives-proxy",
+    , "perspectives-react": 'PerspectivesReact'
   },
   watch: false,
   mode: "development",

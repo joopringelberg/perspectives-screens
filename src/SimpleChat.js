@@ -1,22 +1,8 @@
-import React, { Component, useState, useRef } from "react"; // ###66###
+import React, { Component, useState, useRef } from "react"; // ###68###
 
 import * as PR from "perspectives-react";
 
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Tab from 'react-bootstrap/Tab';
-import Nav from 'react-bootstrap/Nav';
-import Collapse from 'react-bootstrap/Collapse';
-import Overlay from 'react-bootstrap/Overlay'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
+import {Button, Form, ToggleButtonGroup, ToggleButton, InputGroup, Container, Row, Col, Card, Tab, Nav, Collapse, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
@@ -337,22 +323,20 @@ export function chat_Initiator()
 
   return <Container className="bg-light border rounded rounded p-3">
       <Title/>
-        <PR.Rol rol="Partner">
-          <>
-            <SelectContact/>
-            <Row>
-              <PR.ViewOnExternalRole viewname="allProperties">
-                <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
-                  <PR.PSProperty.Consumer>
-                    {setInvitation}
-                  </PR.PSProperty.Consumer>
-                </PR.SetProperty>
-              </PR.ViewOnExternalRole>
-            </Row>
-            <Invitation/>
-          </>
-          <Chat/>
-        </PR.Rol>
+      <PR.Rol rol="Partner">
+          <SelectContact/>
+          <Row>
+            <PR.ViewOnExternalRole viewname="allProperties">
+              <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
+                <PR.PSProperty.Consumer>
+                  {setInvitation}
+                </PR.PSProperty.Consumer>
+              </PR.SetProperty>
+            </PR.ViewOnExternalRole>
+          </Row>
+          <Invitation/>
+        <Chat/>
+      </PR.Rol>
     </Container>
 }
 
