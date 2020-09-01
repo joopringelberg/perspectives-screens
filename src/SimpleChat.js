@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###68###
+import React, { Component, useState, useRef } from "react"; // ###69###
 
 import * as PR from "perspectives-react";
 
@@ -102,10 +102,9 @@ function handleKeyDown(event) {
     }
   }
 
+// model:SimpleChat$Chat$Initiator
 export function chat_Initiator()
 {
-  // The state is an array that holds either no elements, or a single Chat (that is, its external role).
-  const [invitationRequired, setInvitationRequired] = useState(false);
   const [invitationPath, setInvitationPath] = useState( ipcRenderer.sendSync('invitationpath') );
 
   // ipcRenderer.invoke('invitationpath').then( (path) => { setInvitationPath(path)});
@@ -135,26 +134,20 @@ export function chat_Initiator()
 
   function SelectContact()
   {
+    const ContactCard = PR.emptyCard( "allProperties", value => <p>{value.propval("Voornaam")}</p>);
     return <Row className="mb-3">
         <Col lg={6}>
-          <Row>
-            <Col><h4>This chat's partner</h4></Col>
-          </Row>
-              <PR.PSRolBinding.Consumer>
-                {value =>
-                  <Card>
-                    <Card.Body dropeffect="reference" onDragOver={ev => ev.preventDefault()}
-                      onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary"); ev.target.setAttribute("grab", "supported");}}
-                      onDragEnter={(ev) => ev.target.classList.add("border-primary") }
-                      onDragLeave={ev => ev.target.classList.remove("border-primary")}>
-                      <p>Select a contact card on the right and drop it here to start chatting.</p>
-                    </Card.Body>
-                  </Card>
-                }
-              </PR.PSRolBinding.Consumer>
-              <p></p>
-          <Row>
-          </Row>
+          <PR.DropZone>
+            <Row>
+              <Col><h4>This chat's partner</h4></Col>
+            </Row>
+            <Card>
+              <Card.Body>
+                <p>Select a contact card on the right and drop it here to start chatting.</p>
+              </Card.Body>
+            </Card>
+            <br/>
+          </PR.DropZone>
         </Col>
         <Col lg={6}>
           <Row>
@@ -162,20 +155,10 @@ export function chat_Initiator()
           </Row>
           <Row>
             <Col aria-activedescendant="">
-              <PR.Rol rol="PotentialPartners">
+              <PR.CardList rol="PotentialPartners">
                 <p>You seem to have no contacts. Try inviting someone!</p>
-                <PR.View viewname="allProperties">
-                  <Row>
-                    <PR.PSView.Consumer>
-                      {value => <Card grab="supported" draggable key={value.rolinstance} onDragStart={ev => startDragging(ev, value)} className="card">
-                        <Card.Body>
-                          <p>{value.propval("Voornaam")}</p>
-                        </Card.Body>
-                      </Card>}
-                    </PR.PSView.Consumer>
-                  </Row>
-                </PR.View>
-              </PR.Rol>
+                <ContactCard/>
+              </PR.CardList>
             </Col>
           </Row>
         </Col>
@@ -189,77 +172,82 @@ export function chat_Initiator()
     return ev.dataTransfer.setData("PSRol", JSON.stringify(value))
   }
 
-  function requireInvitation(props)
-  {
-    props.setvalue( "true" );
-    setInvitationRequired(true);
-  }
-
-  function setInvitation(props)
-  {
-    // Restore component state from Perspectives state.
-    setInvitationRequired( props.defaultvalue[0] == "true");
-    return <Col>
-        <Form.Check
-          inline
-          aria-label="Check to generate invitation"
-          checked={props.defaultvalue == "true"}
-          disabled={props.defaultvalue == "true"}
-          onChange={e => requireInvitation( props )} />
-        <Form.Label>I want to invite someone I have no contact card for.</Form.Label>
-      </Col>;
-  }
 
   function Invitation()
   {
-    if (invitationRequired)
+    function InvitationRequired(props)
     {
-      return <>
-          <Message/>
-          <Row>
-            <Col>
-              <PR.ViewOnExternalRole viewname="allProperties">
-                <PR.PSView.Consumer>
-                  {value => <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, value.propval("SerialisedInvitation"), invitationPath)}>
-                    <Card.Body>
-                      <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
-                    </Card.Body>
-                  </Card>}
-                </PR.PSView.Consumer>
-              </PR.ViewOnExternalRole>
-            </Col>
-            <Col><p>Send this invitation to the person you want to invite to connect, e.g. by email. Drag it to the desktop or directly into a mail message.</p></Col>
-          </Row>
-        </>
+      return  <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
+                <PR.PSProperty.Consumer>
+                  {sprops => <Form.Group as={Row}>
+                    <Col>
+                      <Form.Check
+                        inline
+                        aria-label="Check to generate invitation"
+                        checked={props.required ? "checked" : null}
+                        disabled={props.required ? "disabled" : null}
+                        // We start out with false and only allow changing once, so that must be to "true"!
+                        onChange={e => sprops.setvalue( "true" )} />
+                    </Col>
+                    <Form.Label>I want to invite someone I have no contact card for.</Form.Label>
+                  </Form.Group>}
+                </PR.PSProperty.Consumer>
+              </PR.SetProperty>
     }
-    else return <div/>
-  }
 
-  function Message()
-  {
-    return <>
-            <Form.Group as={Row}>
-              <Form.Label column sm="3">Message:</Form.Label>
-              <Col sm="9">
-                <PR.ExternalRole>
-                  <PR.View viewname="allProperties">
-                    <PR.SetProperty propertyname="Message">
-                      <PR.PSProperty.Consumer>
-                        {props => <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
-                      </PR.PSProperty.Consumer>
-                    </PR.SetProperty>
-                  </PR.View>
-                </PR.ExternalRole>
-              </Col>
-              <Col sm="9">
-                <Form.Text className="text-muted">
-                  Enter a text message to invite your contact with.
-                </Form.Text>
-              </Col>
-            </Form.Group>
-          </>
-  }
+    function InvitationCard(props)
+    {
+      if ( props.required )
+      {
+        return  <>
+                  <Form.Group as={Row}>
+                    <Form.Label column sm="3">Message:</Form.Label>
+                    <Col sm="9">
+                      <PR.SetProperty propertyname="Message">
+                        <PR.PSProperty.Consumer>
+                          {props => <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
+                        </PR.PSProperty.Consumer>
+                      </PR.SetProperty>
+                    </Col>
+                    <Col sm="9">
+                      <Form.Text className="text-muted">
+                        Enter a text message to invite your contact with.
+                      </Form.Text>
+                    </Col>
+                  </Form.Group>
+                  <Row>
+                    <Col>
+                      <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, props.serialisation, invitationPath)}>
+                        <Card.Body>
+                          <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col><p>Send this invitation to the person you want to invite to connect, e.g. by email. Drag it to the desktop or directly into a mail message.</p></Col>
+                  </Row>
+                </>
+      }
+      else
+      {
+        return <div/>;
+        }
+    }
 
+    return  <PR.ViewOnExternalRole viewname="allProperties">
+              <PR.PSView.Consumer>
+                {value => (
+                    <>
+                      <PR.SetBoolAsCheckbox
+                        propertyname="IWantToInviteAnUnconnectedUser"
+                        val={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]}
+                        label="Check to generate invitation"
+                      />
+                      <InvitationCard required={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]} serialisation={value.propval("SerialisedInvitation") }/>
+                    </>)}
+              </PR.PSView.Consumer>
+            </PR.ViewOnExternalRole>
+
+  }
 
   function Explanation ()
   {
@@ -323,96 +311,14 @@ export function chat_Initiator()
 
   return <Container className="bg-light border rounded rounded p-3">
       <Title/>
-      <PR.Rol rol="Partner">
+      <PR.BindRol rol="Partner">
+        <>
           <SelectContact/>
-          <Row>
-            <PR.ViewOnExternalRole viewname="allProperties">
-              <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
-                <PR.PSProperty.Consumer>
-                  {setInvitation}
-                </PR.PSProperty.Consumer>
-              </PR.SetProperty>
-            </PR.ViewOnExternalRole>
-          </Row>
           <Invitation/>
+        </>
         <Chat/>
-      </PR.Rol>
+      </PR.BindRol>
     </Container>
-}
-
-// model:SimpleChat$ChatApp$Chatter
-export function chatApp_Chatter_()
-{
-  const [contactsOpen, toggleContacts] = useState(false);
-  return (<Container className="chats-top">
-            <Row>
-              <Col>
-                <header className="App-header">
-                  <h4>Chats</h4>
-                </header>
-              </Col>
-              <Col className="text-right">
-                <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat" donotbind={true}>
-                  <CreateButton/>
-                </PR.CreateContext>
-              </Col>
-              <Collapse id="sidebar" dimension="width" in={contactsOpen}>
-                <Col lg={3}>
-                  <Row>
-                    <h4>Contacts</h4>
-                  </Row>
-                  <PR.Rol rol="PotentialPartners">
-                    <PR.View viewname="allProperties">
-                      <Row>
-                        <PR.PSView.Consumer>
-                          {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))} className="card">
-                            <Card.Body>
-                              <p>{value.propval("Voornaam")}</p>
-                            </Card.Body>
-                          </Card>}
-                        </PR.PSView.Consumer>
-                      </Row>
-                    </PR.View>
-                  </PR.Rol>
-                </Col>
-              </Collapse>
-            </Row>
-            <Row>
-              <Col>
-                <Tab.Container id="left-tabs-chats" defaultActiveKey="first" mountOnEnter={true}>
-                  <Row>
-                    <Col lg={3}>
-                      <Nav variant="pills" className="flex-column">
-                        <PR.Rol rol="Chats">
-                          <PR.View viewname="allProperties">
-                            <PR.PSView.Consumer>
-                              {value => <Nav.Item>
-                                  <Nav.Link eventKey={value.rolinstance}>Chat met: {value.propval("WithPartner")}</Nav.Link>
-                                </Nav.Item>}
-                            </PR.PSView.Consumer>
-                          </PR.View>
-                        </PR.Rol>
-                      </Nav>
-                    </Col>
-                    <Col lg={9}>
-                      <Tab.Content>
-                        <PR.Rol rol="Chats">
-                          <PR.PSRol.Consumer>
-                            {value => <Tab.Pane eventKey={value.rolinstance}>
-                                <PR.Screen rolinstance={value.rolinstance}/>
-                              </Tab.Pane>
-                            }
-                          </PR.PSRol.Consumer>
-                        </PR.Rol>
-                      </Tab.Content>
-                    </Col>
-                  </Row>
-                </Tab.Container>
-              </Col>
-            </Row>
-
-
-        </Container>);
 }
 
 function CreateButton (props)
@@ -424,6 +330,7 @@ function CreateButton (props)
   return (<Button variant="light" onClick={e => props.create(ctxt)}>Start a chat</Button>);
 }
 
+// model:SimpleChat$Chat$Partner
 const chat_Partner = chat_Initiator
 
 export {chat_Partner}

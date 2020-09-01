@@ -3,8 +3,7 @@
 const React = require("react");
 
 import
-  { Context
-  , Rol
+  { Rol
   , PSRol
   , BindRol
   , PSRolBinding
@@ -21,6 +20,8 @@ import
   , CardList
   , SimpleCardForRoleBinding
   , SimpleCardForRole
+  , DropZone
+  , emptyCard
   } from "perspectives-react";
 
 import {Container, Form, Row, Col, Card} from "react-bootstrap";
@@ -33,12 +34,12 @@ export function perspectivesSystem_User()
       <Row>
         <BindRol rol="ModelsInUse">
           <Col lg={6} className="border p-3 d-flex">
-            <DropZone>
+            <ModelDropZone>
               <h4>In use</h4>
               <CardList rol="ModelsInUse">
                 <SimpleCardForRoleBinding/>
               </CardList>
-            </DropZone>
+            </ModelDropZone>
           </Col>
         </BindRol>
         <Col lg={6} className="border p-3">
@@ -52,13 +53,13 @@ export function perspectivesSystem_User()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// DROPZONE
-// This dropzone is specialised for System. To import a model, we just need to
+// MODELDROPZONE
+// This ModelDropZone is specialised for System. To import a model, we just need to
 // check the binding of the external role of the model description. The model then
 // will load on the fly.
 // The more general case of a DropZone must support explicit dropping.
 ////////////////////////////////////////////////////////////////////////////////
-class DropZone extends React.PureComponent
+class ModelDropZone extends React.PureComponent
 {
   constructor (props)
   {
@@ -119,7 +120,7 @@ class DropZone extends React.PureComponent
   }
 }
 
-DropZone.contextType = PSRolBinding;
+ModelDropZone.contextType = PSRolBinding;
 
 ////////////////////////////////////////////////////////////////////////////////
 function Message()
@@ -151,37 +152,23 @@ export function invitation_Guest()
     <Form onKeyDown={handleKeyDown}>
       <Form.Group as={Row} controlId="initiator" className="align-items-center">
         <Col sm="4">
-          <Rol rol="Guest">
-            <View viewname="allProperties">
-              <PSView.Consumer>
-                {value => <Card draggable key={value.rolinstance} onDragStart={ev => ev.dataTransfer.setData("PSRol", JSON.stringify(value))}>
-                  <Card.Body>
-                    <p>Contact card of {value.propval("Voornaam")}.</p>
-                  </Card.Body>
-                </Card>}
-              </PSView.Consumer>
-            </View>
-          </Rol>
+          <CardList rol="Guest">
+            { emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) }
+          </CardList>
         </Col>
         <Col sm="4 text-center">
           <Octicon icon={ArrowRight} size='large'/>
         </Col>
         <Col sm="4">
-          <Rol rol="Partner">
-            <PSRolBinding.Consumer>
-            {value =>
+          <BindRol rol="Partner">
+            <DropZone>
               <Card>
-                <Card.Body onDragOver={ev => ev.preventDefault()}
-                  onDrop={ev => {value.bindrol( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); ev.target.classList.remove("border-primary")}}
-                  onDragEnter={(ev) => ev.target.classList.add("border-primary") }
-                  onDragLeave={ev => ev.target.classList.remove("border-primary")}>
+                <Card.Body>
                   <p>To accept the invitation, drag your own contact card over here and drop it.</p>
                 </Card.Body>
               </Card>
-            }
-            </PSRolBinding.Consumer>
-            <div/>
-          </Rol>
+            </DropZone>
+          </BindRol>
         </Col>
         </Form.Group>
       </Form>
