@@ -16,11 +16,18 @@ export function chatApp_Chatter()
   const [selectedChat, setSelectedChat] = useState([]);
   function listOfChats()
   {
-    return (<Container className="border border-secondary rounded p-3 mt-3"  role="region" aria-roledescription="SimpleChat App">
+    const SingleChat = PR.roleInstance( React.forwardRef((props, ref) =>
+          <PR.View viewname="allProperties">
+            <PR.PSView.Consumer>
+              {value => <li ref={ref} onClick={e => setSelectedChat([value.rolinstance])}><a href="#">{chatTitle(value)}</a></li> }
+            </PR.PSView.Consumer>
+          </PR.View>
+      ) );
+    return (<Container className="border border-secondary rounded p-3 mt-3"  role="applictaion" aria-labelledby="simpleChatId">
               {/*The header, including a button to create a new chat instance.*/}
               <Row>
                 <Col>
-                  <h4>Chats</h4>
+                  <h4 id="simpleChatId">Chats</h4>
                 </Col>
                 <Col className="text-right">
                   <PR.Rol rol="Chatter">
@@ -39,13 +46,9 @@ export function chatApp_Chatter()
               <Row>
                 <Col>
                   <ul>
-                    <PR.Rol rol="Chats">
-                      <PR.View viewname="allProperties">
-                        <PR.PSView.Consumer>
-                          {value => <li onClick={e => setSelectedChat([value.rolinstance])}><a href="#">{chatTitle(value)}</a></li> }
-                        </PR.PSView.Consumer>
-                      </PR.View>
-                    </PR.Rol>
+                    <PR.CardList rol="Chats">
+                      <SingleChat/>
+                    </PR.CardList>
                   </ul>
                 </Col>
               </Row>
@@ -137,7 +140,7 @@ export function chat_Initiator()
     const ContactCard = PR.emptyCard( "allProperties", value => <p>{value.propval("Voornaam")}</p>);
     return <Row className="mb-3">
         <Col lg={6}>
-          <PR.DropZone>
+          <PR.DropZone ariaLabel="Select a contact card on the right and drop it here to start chatting.">
             <Row>
               <Col><h4>This chat's partner</h4></Col>
             </Row>

@@ -30,7 +30,10 @@ import Octicon, {ArrowRight} from '@primer/octicons-react'
 
 export function perspectivesSystem_User()
 {
-  return <Container role="region" aria-roledescription="System App">
+  return <Container role="application" aria-labelledby="systemId">
+      <Row>
+        <h2 id="systemId">Overview of apps</h2>
+      </Row>
       <Row>
         <BindRol rol="ModelsInUse">
           <Col lg={6} className="border p-3 d-flex">
@@ -113,6 +116,8 @@ class ModelDropZone extends React.PureComponent
                 onKeyDown={ev => component.checkBinding( ev, selectedRole, setSelectedCard, setPositionToMoveTo )}
                 style={{flexGrow: 1}}
                 className="p-2"
+                aria-dropeffect="execute"
+                aria-label="Drop an App here to get it from the repository."
               >
                 {component.props.children}
               </div>}
@@ -161,7 +166,7 @@ export function invitation_Guest()
         </Col>
         <Col sm="4">
           <BindRol rol="Partner">
-            <DropZone>
+            <DropZone ariaLabel="To accept the invitation, drag your own contact card over here and drop it.">
               <Card>
                 <Card.Body>
                   <p>To accept the invitation, drag your own contact card over here and drop it.</p>
