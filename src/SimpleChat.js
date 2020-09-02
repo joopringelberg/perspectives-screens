@@ -1,8 +1,19 @@
-import React, { Component, useState, useRef } from "react"; // ###69###
+import React, { Component, useState, useRef } from "react"; // ###70###
 
 import * as PR from "perspectives-react";
 
-import {Button, Form, ToggleButtonGroup, ToggleButton, InputGroup, Container, Row, Col, Card, Tab, Nav, Collapse, OverlayTrigger, Tooltip } from "react-bootstrap";
+import
+  { Button
+  , Form
+  , InputGroup
+  , Container
+  , Row
+  , Col
+  , Card
+  , Nav
+  , OverlayTrigger
+  , Tooltip
+  } from "react-bootstrap";
 
 const { ipcRenderer } = require('electron');
 const fs = require('fs');
@@ -19,7 +30,7 @@ export function chatApp_Chatter()
     const SingleChat = PR.roleInstance( React.forwardRef((props, ref) =>
           <PR.View viewname="allProperties">
             <PR.PSView.Consumer>
-              {value => <li ref={ref} onClick={e => setSelectedChat([value.rolinstance])}><a href="#">{chatTitle(value)}</a></li> }
+              {value => <li ref={ref} onClick={e => setSelectedChat([value.rolinstance])} aria-label={value.propval(props.labelProperty) || "New Chat"}><a href="#">{chatTitle(value)}</a></li> }
             </PR.PSView.Consumer>
           </PR.View>
       ) );
@@ -47,7 +58,7 @@ export function chatApp_Chatter()
                 <Col>
                   <ul>
                     <PR.CardList rol="Chats">
-                      <SingleChat/>
+                      <SingleChat labelProperty="Title"/>
                     </PR.CardList>
                   </ul>
                 </Col>
@@ -115,20 +126,20 @@ export function chat_Initiator()
   function Title(props)
   {
     return <Form.Group as={Row} controlId="chatTitle">
-              <Form.Label column sm="3">Title:</Form.Label>
+              <Form.Label column sm="3" id="TitleId">Title:</Form.Label>
               <Col sm="9">
                 <PR.ExternalRole>
                   <PR.View viewname="allProperties">
-                    <PR.SetProperty propertyname="Title">
+                    <PR.SetProperty propertyname="Title" id="TitleId">
                       <PR.PSProperty.Consumer>
-                        {props => <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
+                        {props => <Form.Control aria-labelledby="TitleId" aria-describedby="TitleExplanation" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
                       </PR.PSProperty.Consumer>
                     </PR.SetProperty>
                   </PR.View>
                 </PR.ExternalRole>
               </Col>
               <Col sm="9">
-                <Form.Text className="text-muted">
+                <Form.Text className="text-muted" id="TitleExplanation">
                   This title appears in the list of chats.
                 </Form.Text>
               </Col>
@@ -138,34 +149,38 @@ export function chat_Initiator()
   function SelectContact()
   {
     const ContactCard = PR.emptyCard( "allProperties", value => <p>{value.propval("Voornaam")}</p>);
-    return <Row className="mb-3">
-        <Col lg={6}>
-          <PR.DropZone ariaLabel="Select a contact card on the right and drop it here to start chatting.">
+    return <section aria-label="Chat partner selection">
+        <Row className="mb-3">
+          <Col lg={6}>
             <Row>
               <Col><h4>This chat's partner</h4></Col>
             </Row>
-            <Card>
-              <Card.Body>
-                <p>Select a contact card on the right and drop it here to start chatting.</p>
-              </Card.Body>
-            </Card>
-            <br/>
-          </PR.DropZone>
-        </Col>
-        <Col lg={6}>
-          <Row>
-            <Col><h4>Your contacts</h4></Col>
-          </Row>
-          <Row>
-            <Col aria-activedescendant="">
-              <PR.CardList rol="PotentialPartners">
-                <p>You seem to have no contacts. Try inviting someone!</p>
-                <ContactCard/>
-              </PR.CardList>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            <Row>
+              <PR.DropZone ariaLabel="Select a contact card on the right and drop it here to start chatting.">
+                <Card>
+                  <Card.Body>
+                    <p>Select a contact card on the right and drop it here to start chatting.</p>
+                  </Card.Body>
+                </Card>
+                <br/>
+              </PR.DropZone>
+            </Row>
+          </Col>
+          <Col lg={6}>
+            <Row>
+              <Col><h4>Your contacts</h4></Col>
+            </Row>
+            <Row>
+              <Col aria-activedescendant="">
+                <PR.CardList rol="PotentialPartners">
+                  <p>You seem to have no contacts. Try inviting someone!</p>
+                  <ContactCard/>
+                </PR.CardList>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </section>
   }
 
   function startDragging(ev, value)
@@ -178,55 +193,36 @@ export function chat_Initiator()
 
   function Invitation()
   {
-    function InvitationRequired(props)
-    {
-      return  <PR.SetProperty propertyname="IWantToInviteAnUnconnectedUser">
-                <PR.PSProperty.Consumer>
-                  {sprops => <Form.Group as={Row}>
-                    <Col>
-                      <Form.Check
-                        inline
-                        aria-label="Check to generate invitation"
-                        checked={props.required ? "checked" : null}
-                        disabled={props.required ? "disabled" : null}
-                        // We start out with false and only allow changing once, so that must be to "true"!
-                        onChange={e => sprops.setvalue( "true" )} />
-                    </Col>
-                    <Form.Label>I want to invite someone I have no contact card for.</Form.Label>
-                  </Form.Group>}
-                </PR.PSProperty.Consumer>
-              </PR.SetProperty>
-    }
-
     function InvitationCard(props)
     {
       if ( props.required )
       {
         return  <>
                   <Form.Group as={Row}>
-                    <Form.Label column sm="3">Message:</Form.Label>
+                    <Form.Label column sm="3" id="MessageId">Message:</Form.Label>
                     <Col sm="9">
                       <PR.SetProperty propertyname="Message">
                         <PR.PSProperty.Consumer>
-                          {props => <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
+                          {props => <Form.Control aria-labelledby="MessageId" aria-describeddby="messageDescriptionID" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
                         </PR.PSProperty.Consumer>
                       </PR.SetProperty>
                     </Col>
                     <Col sm="9">
-                      <Form.Text className="text-muted">
+                      <Form.Text className="text-muted" id="messageDescriptionID">
                         Enter a text message to invite your contact with.
                       </Form.Text>
                     </Col>
                   </Form.Group>
                   <Row>
                     <Col>
+                    // Vervang door een download button. Roep createFile aan bij click: vang het pad op dat terugkomt.
                       <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, props.serialisation, invitationPath)}>
                         <Card.Body>
                           <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
                         </Card.Body>
                       </Card>
                     </Col>
-                    <Col><p>Send this invitation to the person you want to invite to connect, e.g. by email. Drag it to the desktop or directly into a mail message.</p></Col>
+                    <Col><p>Click the button to download an invitation file. Send this invitation to the person you want to invite to connect, through a secure channel!</p></Col>
                   </Row>
                 </>
       }
@@ -243,7 +239,7 @@ export function chat_Initiator()
                       <PR.SetBoolAsCheckbox
                         propertyname="IWantToInviteAnUnconnectedUser"
                         val={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]}
-                        label="Check to generate invitation"
+                        label="I want to invite someone I have no contact card for"
                       />
                       <InvitationCard required={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]} serialisation={value.propval("SerialisedInvitation") }/>
                     </>)}
@@ -266,11 +262,6 @@ export function chat_Initiator()
           </OverlayTrigger>
   }
 
-  function Utterance(props)
-  {
-    return <Form.Control defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />;
-  }
-
   function Response(props)
   {
     return <Form.Control defaultValue={props.defaultvalue} readOnly/>;
@@ -278,14 +269,15 @@ export function chat_Initiator()
 
   function Chat()
   {
-    return <Form onKeyDown={handleKeyDown}>
+    // return <Form onKeyDown={handleKeyDown}>
+    return <section aria-label="Chat area" >
             <Form.Group as={Row} controlId="initiator">
               <Form.Label column sm="3">Me:</Form.Label>
               <Col sm="9">
                 <PR.Rol rol="Me">
                   <PR.View viewname="allProperties">
                     <PR.SetProperty propertyname="MyText">
-                      <Utterance/>
+                      <Form.Control aria-label="My text" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />
                     </PR.SetProperty>
                   </PR.View>
                 </PR.Rol>
@@ -300,7 +292,7 @@ export function chat_Initiator()
                       {value => <Nav.Item>
                           <Card className="mb-2">
                             <Card.Body>
-                              <Card.Text>{value.propval("MyText")}</Card.Text>
+                              <Card.Text aria-label="Your partner's text">{value.propval("MyText")}</Card.Text>
                             </Card.Body>
                           </Card>
                         </Nav.Item>}
@@ -309,18 +301,18 @@ export function chat_Initiator()
                 </PR.Rol>
               </Col>
             </Form.Group>
-          </Form>
+          </section>
   }
 
   return <Container className="bg-light border rounded rounded p-3">
       <Title/>
-      <PR.BindRol rol="Partner">
+      <PR.Rol rol="Partner">
         <>
           <SelectContact/>
           <Invitation/>
         </>
         <Chat/>
-      </PR.BindRol>
+      </PR.Rol>
     </Container>
 }
 
@@ -338,29 +330,29 @@ const chat_Partner = chat_Initiator
 
 export {chat_Partner}
 
-// function createFile(ev, text)
-// {
-//   console.log("invoking createfile");
-// 	ipcRenderer.invoke('createfile', text).then((path) => {
-//       console.log("invoking ondragstart with " + path);
-//   		ipcRenderer.send('ondragstart', path)
-// 		});
-// }
-
-function createFile(ev, text, path)
+function createFile(ev, text)
 {
-  fs.writeFile(path, text, {mode: 0o666, flag: "w"},function(err)
-    {
-      if (err)
-      {
-        throw(err);
-      }
-      else {
-        // ev.preventDefault()
-        ipcRenderer.send('ondragstart', path)
-      }
-    });
+  console.log("invoking createfile");
+	ipcRenderer.invoke('createfile', text).then((path) => {
+      console.log("invoking ondragstart with " + path);
+  		// ipcRenderer.send('ondragstart', path)
+		});
 }
+
+// function createFile(ev, text, path)
+// {
+//   fs.writeFile(path, text, {mode: 0o666, flag: "w"},function(err)
+//     {
+//       if (err)
+//       {
+//         throw(err);
+//       }
+//       else {
+//         // ev.preventDefault()
+//         ipcRenderer.send('ondragstart', path)
+//       }
+//     });
+// }
 
 
 function SerialiseInput (props)

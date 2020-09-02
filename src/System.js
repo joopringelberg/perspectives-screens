@@ -18,7 +18,6 @@ import
   , PSRoleInstances
   , AppContext
   , CardList
-  , SimpleCardForRoleBinding
   , SimpleCardForRole
   , DropZone
   , emptyCard
@@ -40,7 +39,7 @@ export function perspectivesSystem_User()
             <ModelDropZone>
               <h4>In use</h4>
               <CardList rol="ModelsInUse">
-                <SimpleCardForRoleBinding/>
+                <SimpleCardForRole labelProperty="Name"/>
               </CardList>
             </ModelDropZone>
           </Col>
@@ -48,7 +47,8 @@ export function perspectivesSystem_User()
         <Col lg={6} className="border p-3">
           <h4>In Repository</h4>
           <CardList rol="Modellen">
-            <SimpleCardForRole/>
+            <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
+            <SimpleCardForRole labelProperty="Name"/>
           </CardList>
         </Col>
       </Row>
@@ -154,7 +154,7 @@ export function invitation_Guest()
 {
   return (<Container>
     <Message/>
-    <Form onKeyDown={handleKeyDown}>
+    <section aria-label="Received invitation">
       <Form.Group as={Row} controlId="initiator" className="align-items-center">
         <Col sm="4">
           <CardList rol="Guest">
@@ -165,7 +165,7 @@ export function invitation_Guest()
           <Octicon icon={ArrowRight} size='large'/>
         </Col>
         <Col sm="4">
-          <BindRol rol="Partner">
+          <Rol rol="Partner">
             <DropZone ariaLabel="To accept the invitation, drag your own contact card over here and drop it.">
               <Card>
                 <Card.Body>
@@ -173,9 +173,9 @@ export function invitation_Guest()
                 </Card.Body>
               </Card>
             </DropZone>
-          </BindRol>
+          </Rol>
         </Col>
         </Form.Group>
-      </Form>
+      </section>
     </Container>)
 }
