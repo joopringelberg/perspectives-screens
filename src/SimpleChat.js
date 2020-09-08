@@ -118,25 +118,26 @@ export function chat_Initiator()
 {
   function Title(props)
   {
-    return <Form.Group as={Row} controlId="chatTitle">
-              <Form.Label column sm="3" id="TitleId">Title:</Form.Label>
-              <Col sm="9">
-                <PR.ExternalRole>
-                  <PR.View viewname="allProperties">
-                    <PR.SetProperty propertyname="Title" id="TitleId">
-                      <PR.PSProperty.Consumer>
-                        {props => <Form.Control aria-labelledby="TitleId" aria-describedby="TitleExplanation" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
-                      </PR.PSProperty.Consumer>
-                    </PR.SetProperty>
-                  </PR.View>
-                </PR.ExternalRole>
-              </Col>
-              <Col sm="9">
-                <Form.Text className="text-muted" id="TitleExplanation">
-                  This title appears in the list of chats.
-                </Form.Text>
-              </Col>
-            </Form.Group>
+    return  <PR.ExternalRole>
+              <PR.View viewname="allProperties">
+                <PR.PSView.Consumer>
+                  {props => <h5>{props.propval("Title")}</h5>}
+                </PR.PSView.Consumer>
+                <Form.Group as={Row} controlId="chatTitle">
+                  <Form.Label column sm="3" id="TitleId">Change the title:</Form.Label>
+                  <Col sm="9">
+                    <PR.PSView.Consumer>
+                      {props =>  <Form.Control aria-labelledby="TitleId" aria-describedby="TitleExplanation" defaultValue={props.propval("Title")} onBlur={e => props.propset("Title", e.target.value)} />}
+                    </PR.PSView.Consumer>
+                  </Col>
+                  <Col sm="9">
+                    <Form.Text className="text-muted" id="TitleExplanation">
+                      This title appears in the list of chats.
+                    </Form.Text>
+                  </Col>
+                </Form.Group>
+              </PR.View>
+            </PR.ExternalRole>
   }
 
   function SelectContact()
@@ -207,11 +208,9 @@ export function chat_Initiator()
                   <Form.Group as={Row}>
                     <Form.Label column sm="3" id="MessageId">Message:</Form.Label>
                     <Col sm="9">
-                      <PR.SetProperty propertyname="Message">
-                        <PR.PSProperty.Consumer>
-                          {props => <Form.Control aria-labelledby="MessageId" aria-describedby="messageDescriptionID" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
-                        </PR.PSProperty.Consumer>
-                      </PR.SetProperty>
+                      <PR.PSView.Consumer>
+                        {props => <Form.Control aria-labelledby="MessageId" aria-describedby="messageDescriptionID" defaultValue={props.propval("Message")} onBlur={e => props.propset("Message", e.target.value)} />}
+                      </PR.PSView.Consumer>
                     </Col>
                     <Col sm="9">
                       <Form.Text className="text-muted" id="messageDescriptionID">
@@ -243,7 +242,6 @@ export function chat_Initiator()
                     <>
                       <PR.SetBoolAsCheckbox
                         propertyname="IWantToInviteAnUnconnectedUser"
-                        val={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]}
                         label="I want to invite someone I have no contact card for"
                       />
                       <InvitationCard required={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]} serialisation={value.propval("SerialisedInvitation") }/>
@@ -281,11 +279,9 @@ export function chat_Initiator()
               <Col sm="9">
                 <PR.Rol rol="Me">
                   <PR.View viewname="allProperties">
-                    <PR.SetProperty propertyname="MyText">
-                      <PR.PSProperty.Consumer>
-                      {value => <Form.Control aria-label="My text" defaultValue={value.defaultvalue} onBlur={e => value.setvalue(e.target.value)} />}
-                      </PR.PSProperty.Consumer>
-                    </PR.SetProperty>
+                    <PR.PSView.Consumer>
+                      {value => <Form.Control aria-label="My text" defaultValue={value.propval("MyText")} onBlur={e => value.propset("MyText", e.target.value)} />}
+                    </PR.PSView.Consumer>
                   </PR.View>
                 </PR.Rol>
               </Col>
