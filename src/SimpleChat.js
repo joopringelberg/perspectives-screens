@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###70###
+import React, { Component, useState, useRef } from "react"; // ###73###
 
 import * as PR from "perspectives-react";
 
@@ -14,9 +14,6 @@ import
   , OverlayTrigger
   , Tooltip
   } from "react-bootstrap";
-
-const { ipcRenderer } = require('electron');
-const fs = require('fs');
 
 import "./SimpleChat.css";
 
@@ -46,7 +43,7 @@ export function chatApp_Chatter()
                       {
                         props => <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat" donotbind={true}>
                                    {/*On creating a context, we set the selectedChat.*/}
-                                   <CreateButton_ binding={props.rolinstance}/>
+                                   <CreateButton binding={props.rolinstance}/>
                                  </PR.CreateContext>
                       }
                     </PR.PSRol.Consumer>
@@ -85,7 +82,7 @@ export function chatApp_Chatter()
         }
   }
 
-  function CreateButton_ (props)
+  function CreateButton (props)
   {
     // How do we get the id of the ChatApp$Chatter role to bind to?
     const ctxt = {
@@ -119,10 +116,6 @@ function handleKeyDown(event) {
 // model:SimpleChat$Chat$Initiator
 export function chat_Initiator()
 {
-  const [invitationPath, setInvitationPath] = useState( ipcRenderer.sendSync('invitationpath') );
-
-  // ipcRenderer.invoke('invitationpath').then( (path) => { setInvitationPath(path)});
-
   function Title(props)
   {
     return <Form.Group as={Row} controlId="chatTitle">
@@ -195,6 +188,19 @@ export function chat_Initiator()
   {
     function InvitationCard(props)
     {
+      function download(filename, text) {
+          var element = document.createElement('a');
+          element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(text));
+          element.setAttribute('download', filename);
+
+          element.style.display = 'none';
+          document.body.appendChild(element);
+
+          element.click();
+
+          document.body.removeChild(element);
+      }
+
       if ( props.required )
       {
         return  <>
@@ -203,7 +209,7 @@ export function chat_Initiator()
                     <Col sm="9">
                       <PR.SetProperty propertyname="Message">
                         <PR.PSProperty.Consumer>
-                          {props => <Form.Control aria-labelledby="MessageId" aria-describeddby="messageDescriptionID" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
+                          {props => <Form.Control aria-labelledby="MessageId" aria-describedby="messageDescriptionID" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />}
                         </PR.PSProperty.Consumer>
                       </PR.SetProperty>
                     </Col>
@@ -215,14 +221,13 @@ export function chat_Initiator()
                   </Form.Group>
                   <Row>
                     <Col>
-                    // Vervang door een download button. Roep createFile aan bij click: vang het pad op dat terugkomt.
-                      <Card draggable key="invitation.json" onDragStart={ev => createFile(ev, props.serialisation, invitationPath)}>
-                        <Card.Body>
-                          <p>I'm an invitation. Send me to someone - but only to one person, ever! <Explanation/></p>
-                        </Card.Body>
-                      </Card>
+                      <Button
+                        variant="primary"
+                        onClick={ () => download("invitation.json", props.serialisation) }
+                        disabled={props.serialisation[0] ? null : true}
+                        >Download invitation file</Button>
                     </Col>
-                    <Col><p>Click the button to download an invitation file. Send this invitation to the person you want to invite to connect, through a secure channel!</p></Col>
+                    <Col><p>Click the button to download an invitation file. An invitation file is personal! Send it to the person you want to invite to connect, through a secure channel.</p></Col>
                   </Row>
                 </>
       }
@@ -267,7 +272,7 @@ export function chat_Initiator()
     return <Form.Control defaultValue={props.defaultvalue} readOnly/>;
   }
 
-  function Chat()
+  function Chat(props)
   {
     // return <Form onKeyDown={handleKeyDown}>
     return <section aria-label="Chat area" >
@@ -316,44 +321,10 @@ export function chat_Initiator()
     </Container>
 }
 
-function CreateButton (props)
-{
-  const ctxt = {
-    "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {"model:SimpleChat$WithText$TextWriter$MyText": ["Your message here!"]}, "binding": "usr:Me" } ] },
-    "externeProperties": {}
-  };
-  return (<Button variant="light" onClick={e => props.create(ctxt)}>Start a chat</Button>);
-}
-
 // model:SimpleChat$Chat$Partner
 const chat_Partner = chat_Initiator
 
 export {chat_Partner}
-
-function createFile(ev, text)
-{
-  console.log("invoking createfile");
-	ipcRenderer.invoke('createfile', text).then((path) => {
-      console.log("invoking ondragstart with " + path);
-  		// ipcRenderer.send('ondragstart', path)
-		});
-}
-
-// function createFile(ev, text, path)
-// {
-//   fs.writeFile(path, text, {mode: 0o666, flag: "w"},function(err)
-//     {
-//       if (err)
-//       {
-//         throw(err);
-//       }
-//       else {
-//         // ev.preventDefault()
-//         ipcRenderer.send('ondragstart', path)
-//       }
-//     });
-// }
-
 
 function SerialiseInput (props)
 {

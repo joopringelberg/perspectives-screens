@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 40
+// The screen for model:System$PerspectivesSystem. 42
 
 const React = require("react");
 
@@ -25,7 +25,7 @@ import
 
 import {Container, Form, Row, Col, Card} from "react-bootstrap";
 
-import Octicon, {ArrowRight} from '@primer/octicons-react'
+import {ArrowRightIcon} from '@primer/octicons-react'
 
 export function perspectivesSystem_User()
 {
@@ -152,17 +152,18 @@ function handleKeyDown(event) {
 
 export function invitation_Guest()
 {
+  const ContactCard = roleInstance( emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) );
   return (<Container>
     <Message/>
     <section aria-label="Received invitation">
       <Form.Group as={Row} controlId="initiator" className="align-items-center">
         <Col sm="4">
           <CardList rol="Guest">
-            { emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) }
+            <ContactCard labelProperty="Voornaam"/>
           </CardList>
         </Col>
         <Col sm="4 text-center">
-          <Octicon icon={ArrowRight} size='large'/>
+          <ArrowRightIcon alt="ArrowRight" size="large"/>
         </Col>
         <Col sm="4">
           <Rol rol="Partner">
@@ -173,9 +174,10 @@ export function invitation_Guest()
                 </Card.Body>
               </Card>
             </DropZone>
+            <p>This will actually never display because the role changes as soon as there is a binding for Partner. But we need it to display the card above!</p>
           </Rol>
         </Col>
-        </Form.Group>
-      </section>
-    </Container>)
+      </Form.Group>
+    </section>
+  </Container>)
 }
