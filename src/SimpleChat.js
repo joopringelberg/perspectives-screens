@@ -282,7 +282,9 @@ export function chat_Initiator()
                 <PR.Rol rol="Me">
                   <PR.View viewname="allProperties">
                     <PR.SetProperty propertyname="MyText">
-                      <Form.Control aria-label="My text" defaultValue={props.defaultvalue} onBlur={e => props.setvalue(e.target.value)} />
+                      <PR.PSProperty.Consumer>
+                      {value => <Form.Control aria-label="My text" defaultValue={value.defaultvalue} onBlur={e => value.setvalue(e.target.value)} />}
+                      </PR.PSProperty.Consumer>
                     </PR.SetProperty>
                   </PR.View>
                 </PR.Rol>
