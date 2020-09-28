@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###73###
+import React, { Component, useState, useRef } from "react"; // ###76###
 
 import * as PR from "perspectives-react";
 
@@ -41,7 +41,7 @@ export function chatApp_Chatter()
                   <PR.Rol rol="Chatter">
                     <PR.PSRol.Consumer>
                       {
-                        props => <PR.CreateContext rolname="Chats" contextname="model:SimpleChat$Chat" donotbind={true}>
+                        props => <PR.CreateContext contextname="model:SimpleChat$Chat" rolname="Chats">
                                    {/*On creating a context, we set the selectedChat.*/}
                                    <CreateButton binding={props.rolinstance}/>
                                  </PR.CreateContext>
@@ -86,7 +86,7 @@ export function chatApp_Chatter()
   {
     // How do we get the id of the ChatApp$Chatter role to bind to?
     const ctxt = {
-      "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {"model:SimpleChat$WithText$TextWriter$MyText": ["Your message here!"]}, "binding": props.binding } ] },
+      "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}
     };
     return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat([erole]))}>Start a chat</Button>);
@@ -142,7 +142,7 @@ export function chat_Initiator()
 
   function SelectContact()
   {
-    const ContactCard = PR.emptyCard( "allProperties", value => <p>{value.propval("Voornaam")}</p>);
+    const ContactCard = PR.roleInstance( PR.emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) );
     return <section aria-label="Chat partner selection">
         <Row className="mb-3">
           <Col lg={6}>
