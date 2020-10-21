@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 42
+// The screen for model:System$PerspectivesSystem. 43
 
 const React = require("react");
 
@@ -104,14 +104,7 @@ class ModelDropZone extends React.PureComponent
 
   handleDrop (psrol)
   {
-    const component = this;
-    component.context.getUnqualifiedRoleBinders(psrol).then( function( binders )
-      {
-        if (!binders[0])
-        {
-          component.context.bind( psrol );
-        }
-      })
+    this.context.bind( psrol );
   }
 
   render ()
@@ -125,7 +118,7 @@ class ModelDropZone extends React.PureComponent
                 // onDrop={ev => {component.context.checkbinding( JSON.parse( ev.dataTransfer.getData("PSRol") ), function(){} ); ev.target.classList.remove("border-primary", "border")}}
                 onDrop={ function (ev)
                   {
-                    component.handleDrop( JSON.parse( ev.dataTransfer.getData("PSRol") ) ); 
+                    component.handleDrop( JSON.parse( ev.dataTransfer.getData("PSRol") ) );
                     ev.target.classList.remove("border-primary", "border");
                   }}
                 onDragEnter={(ev) => ev.target.classList.add("border-primary", "border") }
