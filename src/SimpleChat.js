@@ -31,7 +31,7 @@ export function chatApp_Chatter()
             </PR.PSView.Consumer>
           </PR.View>
       ) );
-    return (<Container className="border border-secondary rounded p-3 mt-3"  role="applictaion" aria-labelledby="simpleChatId">
+    return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="simpleChatId">
               {/*The header, including a button to create a new chat instance.*/}
               <Row>
                 <Col>
@@ -84,7 +84,6 @@ export function chatApp_Chatter()
 
   function CreateButton (props)
   {
-    // How do we get the id of the ChatApp$Chatter role to bind to?
     const ctxt = {
       "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}

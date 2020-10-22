@@ -6,6 +6,7 @@ module.exports = {
     { System: path.join(__dirname, "src/System.js" )
     , TestBotActie: path.join(__dirname, "src/TestBotActie.js" )
     , SimpleChat: path.join(__dirname, "src/SimpleChat.js" )
+    , ModelManagement: path.join(__dirname, "src/ModelManagement.js" )
   },
   output: {
       filename: '[name].js',
