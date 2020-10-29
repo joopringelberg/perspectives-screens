@@ -167,7 +167,7 @@ export function chat_Initiator()
               <Col aria-activedescendant="">
                 <PR.CardList rol="PotentialPartners">
                   <p>You seem to have no contacts. Try inviting someone!</p>
-                  <ContactCard/>
+                  <ContactCard labelProperty="Voornaam"/>
                 </PR.CardList>
               </Col>
             </Row>
@@ -326,19 +326,3 @@ export function chat_Initiator()
 const chat_Partner = chat_Initiator
 
 export {chat_Partner}
-
-function SerialiseInput (props)
-{
-  return (
-    <Form.Group as={Row} controlId="SerialiseInput">
-      <Col sm="8">
-        <Form.Label>I want to make a new connection</Form.Label>
-      </Col>
-      <Col sm="4">
-        <InputGroup.Checkbox
-          aria-label="Check to generate invitation"
-          checked={props.defaultvalue}
-          onChange={e => props.setvalue((e.target.value == "on").toString())} />
-      </Col>
-    </Form.Group>)
-}
