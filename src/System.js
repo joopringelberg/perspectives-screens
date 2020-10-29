@@ -23,36 +23,61 @@ import
   , emptyCard
   } from "perspectives-react";
 
-import {Container, Form, Row, Col, Card} from "react-bootstrap";
+import {Container, Form, Row, Col, Card, Tabs, Tab} from "react-bootstrap";
 
 import {ArrowRightIcon} from '@primer/octicons-react'
 
 export function perspectivesSystem_User()
 {
   return <Container role="application" aria-labelledby="systemId">
-      <Row>
-        <h2 id="systemId">Overview of apps</h2>
-      </Row>
-      <Row>
-        <Bind rol="ModelsInUse">
-          <Col lg={6} className="border p-3 d-flex">
-            <ModelDropZone>
-              <h4>In use</h4>
-              <CardList rol="ModelsInUse">
-                <SimpleCardForRole labelProperty="Name"/>
-              </CardList>
-            </ModelDropZone>
-          </Col>
-        </Bind>
-        <Col lg={6} className="border p-3">
-          <h4>In Repository</h4>
-          <CardList rol="Modellen">
-            <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
-            <SimpleCardForRole labelProperty="Name"/>
-          </CardList>
-        </Col>
-      </Row>
-    </Container>
+        <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
+          <Tab eventKey="apps" title="Apps">
+            <Row>
+              <Bind rol="ModelsInUse">
+                <Col lg={6} className="border p-3 d-flex">
+                  <ModelDropZone>
+                    <h4>In use</h4>
+                    <CardList rol="ModelsInUse">
+                      <SimpleCardForRole labelProperty="Name"/>
+                    </CardList>
+                  </ModelDropZone>
+                </Col>
+              </Bind>
+              <Col lg={6} className="border p-3">
+                <h4>In Repository</h4>
+                <CardList rol="Modellen">
+                  <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
+                  <SimpleCardForRole labelProperty="Name"/>
+                </CardList>
+              </Col>
+            </Row>
+          </Tab>
+          <Tab eventKey="user" title="User information">
+            <Rol rol="User">
+              <View viewname="allProperties">
+                <PSView.Consumer>
+                { view =>
+                  <>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm="3">First name:</Form.Label>
+                      <Col sm="9">
+                        <Form.Control aria-label="First name" defaultValue={view.propval("Voornaam")} onBlur={e => view.propset("Voornaam", e.target.value)}/>
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                      <Form.Label column sm="3">Last name:</Form.Label>
+                      <Col sm="9">
+                        <Form.Control aria-label="Last name" defaultValue={view.propval("Achternaam")} onBlur={e => view.propset("Achternaam", e.target.value)}/>
+                      </Col>
+                    </Form.Group>
+                  </>
+                }
+                </PSView.Consumer>
+              </View>
+            </Rol>
+          </Tab>
+        </Tabs>
+      </Container>
 }
 
 ////////////////////////////////////////////////////////////////////////////////

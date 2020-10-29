@@ -273,36 +273,40 @@ export function chat_Initiator()
   {
     // return <Form onKeyDown={handleKeyDown}>
     return <section aria-label="Chat area" >
-            <Form.Group as={Row} controlId="initiator">
-              <Form.Label column sm="3">Me:</Form.Label>
-              <Col sm="9">
-                <PR.Rol rol="Me">
-                  <PR.View viewname="allProperties">
-                    <PR.PSView.Consumer>
-                      {value => <Form.Control aria-label="My text" defaultValue={value.propval("MyText")} onBlur={e => value.propset("MyText", e.target.value)} />}
-                    </PR.PSView.Consumer>
-                  </PR.View>
-                </PR.Rol>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} controlId="partner">
-              <Form.Label column sm="3">You:</Form.Label>
-              <Col sm="9">
-                <PR.Rol rol="You">
-                  <PR.View viewname="allProperties">
-                    <PR.PSView.Consumer>
-                      {value => <Nav.Item>
-                          <Card className="mb-2">
-                            <Card.Body>
-                              <Card.Text aria-label="Your partner's text">{value.propval("MyText")}</Card.Text>
-                            </Card.Body>
-                          </Card>
-                        </Nav.Item>}
-                    </PR.PSView.Consumer>
-                  </PR.View>
-                </PR.Rol>
-              </Col>
-            </Form.Group>
+              <PR.Rol rol="Me">
+                <PR.View viewname="allProperties">
+                  <PR.PSView.Consumer>
+                  {
+                    view => <Form.Group as={Row} controlId="initiator">
+                        <Form.Label column sm="3">{view.propval("Voornaam")}:</Form.Label>
+                        <Col sm="9">
+                          <Form.Control aria-label="My text" defaultValue={view.propval("MyText")} onBlur={e => view.propset("MyText", e.target.value)} />
+                        </Col>
+                      </Form.Group>
+                  }
+                  </PR.PSView.Consumer>
+                </PR.View>
+              </PR.Rol>
+              <PR.Rol rol="You">
+                <PR.View viewname="allProperties">
+                  <PR.PSView.Consumer>
+                  {
+                    view => <Form.Group as={Row} controlId="partner">
+                      <Form.Label column sm="3">{view.propval("Voornaam")}:</Form.Label>
+                        <Col sm="9">
+                          <Nav.Item>
+                            <Card className="mb-2">
+                              <Card.Body>
+                                <Card.Text aria-label="Your partner's text">{view.propval("MyText")}</Card.Text>
+                              </Card.Body>
+                            </Card>
+                          </Nav.Item>
+                        </Col>
+                      </Form.Group>
+                  }
+                  </PR.PSView.Consumer>
+                </PR.View>
+              </PR.Rol>
           </section>
   }
 
