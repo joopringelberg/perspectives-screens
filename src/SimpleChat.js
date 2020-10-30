@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###76###
+import React, { Component, useState, useRef } from "react"; // ###77###
 
 import * as PR from "perspectives-react";
 
@@ -24,12 +24,18 @@ export function chatApp_Chatter()
   const [selectedChat, setSelectedChat] = useState([]);
   function listOfChats()
   {
-    const SingleChat = PR.roleInstance( React.forwardRef((props, ref) =>
-          <PR.View viewname="allProperties">
-            <PR.PSView.Consumer>
-              {value => <li ref={ref} onClick={e => setSelectedChat([value.rolinstance])} aria-label={value.propval(props.labelProperty) || "New Chat"}><a href="#">{chatTitle(value)}</a></li> }
-            </PR.PSView.Consumer>
-          </PR.View>
+    const SingleChat = PR.roleInstance( React.forwardRef(function (props, ref)
+      {
+        function alabel(values)
+        {
+          return values[0] ? values[0] : "New Chat";
+        }
+        return  <PR.View viewname="allProperties">
+                  <PR.PSView.Consumer>
+                    {value => <li role="listitem" ref={ref} onClick={e => setSelectedChat([value.rolinstance])} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
+                  </PR.PSView.Consumer>
+                </PR.View>
+      }
       ) );
     return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="simpleChatId">
               {/*The header, including a button to create a new chat instance.*/}
@@ -100,7 +106,7 @@ export function chatApp_Chatter()
   else
   {
     return <Container className="border border-secondary rounded p-3 mt-3">
-        <Row><Col className="pb-3" ><a href="#" onClick={e => setSelectedChat([])}>Back to all chats</a></Col></Row>
+        <Row><Col className="pb-3" ><Button href="#" onClick={e => setSelectedChat([])}>Back to all chats</Button></Col></Row>
         <PR.Screen rolinstance={selectedChat[0]}/>
       </Container>
   }
@@ -149,7 +155,7 @@ export function chat_Initiator()
               <Col><h4>This chat's partner</h4></Col>
             </Row>
             <Row>
-              <PR.DropZone ariaLabel="Select a contact card on the right and drop it here to start chatting.">
+              <PR.DropZone ariaLabel="Press space to drop the selected contact card to start chatting.">
                 <Card>
                   <Card.Body>
                     <p>Select a contact card on the right and drop it here to start chatting.</p>
@@ -164,7 +170,7 @@ export function chat_Initiator()
               <Col><h4>Your contacts</h4></Col>
             </Row>
             <Row>
-              <Col aria-activedescendant="">
+              <Col>
                 <PR.CardList rol="PotentialPartners">
                   <p>You seem to have no contacts. Try inviting someone!</p>
                   <ContactCard labelProperty="Voornaam"/>
@@ -280,7 +286,12 @@ export function chat_Initiator()
                     view => <Form.Group as={Row} controlId="initiator">
                         <Form.Label column sm="3">{view.propval("Voornaam")}:</Form.Label>
                         <Col sm="9">
-                          <Form.Control aria-label="My text" defaultValue={view.propval("MyText")} onBlur={e => view.propset("MyText", e.target.value)} />
+                          <Form.Control aria-label="My text" aria-describedby="chatDescriptionID" defaultValue={view.propval("MyText")} onBlur={e => view.propset("MyText", e.target.value)} />
+                        </Col>
+                        <Col sm="9">
+                          <Form.Text className="text-muted" id="chatDescriptionID">
+                            Type a message to your chat partner here.
+                          </Form.Text>
                         </Col>
                       </Form.Group>
                   }
@@ -292,12 +303,12 @@ export function chat_Initiator()
                   <PR.PSView.Consumer>
                   {
                     view => <Form.Group as={Row} controlId="partner">
-                      <Form.Label column sm="3">{view.propval("Voornaam")}:</Form.Label>
+                      <Form.Label column sm="3">Response by {view.propval("Voornaam")}:</Form.Label>
                         <Col sm="9">
                           <Nav.Item>
                             <Card className="mb-2">
                               <Card.Body>
-                                <Card.Text aria-label="Your partner's text">{view.propval("MyText")}</Card.Text>
+                                <Card.Text aria-label={"Response by " + view.propval("Voornaam")}>{view.propval("MyText")}</Card.Text>
                               </Card.Body>
                             </Card>
                           </Nav.Item>
