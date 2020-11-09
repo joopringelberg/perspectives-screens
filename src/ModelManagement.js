@@ -110,7 +110,7 @@ export function modelManagementApp_Manager()
 export function managedModel_Author()
 {
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
-            <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
+            <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all models"/></Col></Row>
             <Row>
               <Col>
                 <h4 id="managedModelId">Model</h4>
