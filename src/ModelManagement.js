@@ -17,19 +17,25 @@ import
 
 export function modelManagementApp_Manager()
 {
-  // The state is an array that holds either no elements, or a single Chat (that is, its external role).
-  const [selectedModel, setSelectedModel] = useState([]);
-  function listOfModels()
+  // A ref to dispatch an event from.
+  const modelListRef = React.createRef();
+
+  function setSelectedModel ( r )
+  {
+    modelListRef.current.dispatchEvent( new CustomEvent('OpenContext', { detail: r, bubbles: true }) );
+  }
+
+  function ModelsAndRepositories()
   {
     const SingleManagedModel = PR.roleInstance( React.forwardRef((props, ref) =>
           <PR.View viewname="allProperties">
             <PR.PSView.Consumer>
-              {value => <li ref={ref} onClick={e => setSelectedModel([value.rolinstance])} aria-label={value.propval(props.labelProperty) || "New Managed Model"}><a href="#">{modelTitle(value)}</a></li> }
+              {value => <li ref={ref} onClick={e => setSelectedModel( value.rolinstance )} aria-label={value.propval(props.labelProperty) || "New Managed Model"}><a href="#">{modelTitle(value)}</a></li> }
             </PR.PSView.Consumer>
           </PR.View>
       ) );
-    return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelsId">
-              <Row>
+    return (<>
+              <Row ref={modelListRef}>
                 <Col>
                   <h4 id="managedModelsId">Models</h4>
                 </Col>
@@ -66,7 +72,7 @@ export function modelManagementApp_Manager()
                   <PR.RoleTable viewname="allProperties" roletype="Repository" cardcolumn="Name"/>
                 </Col>
               </Row>
-            </Container>
+            </>
     )
   }
 
@@ -89,27 +95,22 @@ export function modelManagementApp_Manager()
       "rollen": { "model:ModelManagement$ManagedModel$Author":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}
     };
-    return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedModel([erole]))}>New model</Button>);
+    return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedModel( erole ))}>New model</Button>);
   }
 
-  // If no Model has been selected, we display the Name (including a button to add a Model) and the list of Models.
-  if (!selectedModel[0])
-  {
-    return listOfModels();
-  }
-  // Otherwise, We show the perspective for that selected model.
-  else
-  {
-    return <Container className="border border-secondary rounded p-3 mt-3">
-        <Row><Col className="pb-3" ><a href="#" onClick={e => setSelectedModel([])}>Back to all models</a></Col></Row>
-        <PR.Screen rolinstance={selectedModel[0]}/>
-      </Container>
-  }
+  return  <PR.PerspectivesContainer
+            className="border border-secondary rounded p-3 mt-3"
+            role="application"
+            aria-labelledby="managedModelsId"
+          >
+            <ModelsAndRepositories/>
+          </PR.PerspectivesContainer>
 }
 
 export function managedModel_Author()
 {
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
+            <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
             <Row>
               <Col>
                 <h4 id="managedModelId">Model</h4>

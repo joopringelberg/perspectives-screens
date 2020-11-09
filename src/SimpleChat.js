@@ -104,15 +104,13 @@ export function chatApp_Chatter()
     return <Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat(erole))}>Start a chat</Button>;
   }
 
-  return  <Container
+  return  <PR.PerspectivesContainer
             className="border border-secondary rounded p-3 mt-3"
             role="application"
             aria-labelledby="simpleChatId"
           >
-            <PR.PerspectivesContainer>
-              <ListOfChats/>
-            </PR.PerspectivesContainer>
-          </Container>
+            <ListOfChats/>
+          </PR.PerspectivesContainer>
 }
 
 function handleKeyDown(event) {
