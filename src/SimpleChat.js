@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from "react"; // ###77###
+import React, { Component, useState, useRef } from "react"; // ###78###
 
 import * as PR from "perspectives-react";
 
@@ -20,9 +20,16 @@ import "./SimpleChat.css";
 // model:SimpleChat$ChatApp$Chatter
 export function chatApp_Chatter()
 {
+  // A ref to dispatch an event from.
+  const chatListRef = React.createRef();
+
+  function setSelectedChat ( r )
+  {
+    chatListRef.current.dispatchEvent( new CustomEvent('OpenContext', { detail: r, bubbles: true }) );
+  }
+
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
-  const [selectedChat, setSelectedChat] = useState([]);
-  function listOfChats()
+  function ListOfChats()
   {
     const SingleChat = PR.roleInstance( React.forwardRef(function (props, ref)
       {
@@ -32,14 +39,15 @@ export function chatApp_Chatter()
         }
         return  <PR.View viewname="allProperties">
                   <PR.PSView.Consumer>
-                    {value => <li role="listitem" ref={ref} onClick={e => setSelectedChat([value.rolinstance])} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
+                    {value => <li role="listitem" ref={ref} onClick={e => setSelectedChat(value.rolinstance)} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
                   </PR.PSView.Consumer>
                 </PR.View>
       }
       ) );
-    return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="simpleChatId">
-              {/*The header, including a button to create a new chat instance.*/}
-              <Row>
+
+    // The header, including a button to create a new chat instance.
+    return <>
+              <Row ref={ chatListRef }>
                 <Col>
                   <h4 id="simpleChatId">Chats</h4>
                 </Col>
@@ -66,8 +74,7 @@ export function chatApp_Chatter()
                   </ul>
                 </Col>
               </Row>
-            </Container>
-    )
+            </>
   }
 
   function chatTitle(value)
@@ -94,22 +101,18 @@ export function chatApp_Chatter()
       "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}
     };
-    return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat([erole]))}>Start a chat</Button>);
+    return <Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat(erole))}>Start a chat</Button>;
   }
 
-  // If no Chat has been selected, we display the Title (including a button to add a Chat) and the list of Chats.
-  if (!selectedChat[0])
-  {
-    return listOfChats();
-  }
-  // Otherwise, We show the perspective for that selected chat.
-  else
-  {
-    return <Container className="border border-secondary rounded p-3 mt-3">
-        <Row><Col className="pb-3" ><Button href="#" onClick={e => setSelectedChat([])}>Back to all chats</Button></Col></Row>
-        <PR.Screen rolinstance={selectedChat[0]}/>
-      </Container>
-  }
+  return  <Container
+            className="border border-secondary rounded p-3 mt-3"
+            role="application"
+            aria-labelledby="simpleChatId"
+          >
+            <PR.PerspectivesContainer>
+              <ListOfChats/>
+            </PR.PerspectivesContainer>
+          </Container>
 }
 
 function handleKeyDown(event) {
@@ -322,6 +325,7 @@ export function chat_Initiator()
   }
 
   return <Container className="bg-light border rounded rounded p-3">
+      <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
       <Title/>
       <PR.Rol rol="Partner">
         <>
