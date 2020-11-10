@@ -54,7 +54,12 @@ export function brokerServices_Guest()
 export function brokerService_Administrator()
 {
   return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
-            <Row><PR.BackButton buttontext="Back to Brokers and Contracts"/></Row>
+            <Row><Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col></Row>
+            <Row>
+              <Col>
+                <PR.RoleTable viewname="Account" roletype="Accounts" cardcolumn="FirstNameOfAccountHolder" contexttocreate="model:BrokerServices$BrokerContract"/>
+              </Col>
+            </Row>
           </PR.PerspectivesContainer>
 }
 
