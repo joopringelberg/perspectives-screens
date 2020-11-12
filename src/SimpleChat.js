@@ -18,7 +18,7 @@ import
 import "./SimpleChat.css";
 
 // model:SimpleChat$ChatApp$Chatter
-export function chatApp_Chatter()
+function chatApp_Chatter()
 {
   // A ref to dispatch an event from.
   const chatListRef = React.createRef();
@@ -120,7 +120,7 @@ function handleKeyDown(event) {
   }
 
 // model:SimpleChat$Chat$Initiator
-export function chat_Initiator()
+function chat_Initiator()
 {
   function Title(props)
   {
@@ -335,7 +335,9 @@ export function chat_Initiator()
     </Container>
 }
 
-// model:SimpleChat$Chat$Partner
-const chat_Partner = chat_Initiator
-
-export {chat_Partner}
+export default PR.makeScreens(
+  { chat_Partner: chat_Initiator
+  , chatApp_Chatter: chatApp_Chatter
+  , chat_Initiator: chat_Initiator
+  }
+);

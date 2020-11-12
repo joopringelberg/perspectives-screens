@@ -21,13 +21,14 @@ import
   , SimpleCardForRole
   , DropZone
   , emptyCard
+  , makeScreens
   } from "perspectives-react";
 
 import {Container, Form, Row, Col, Card, Tabs, Tab} from "react-bootstrap";
 
 import {ArrowRightIcon} from '@primer/octicons-react'
 
-export function perspectivesSystem_User()
+function perspectivesSystem_User()
 {
   return <Container role="application" aria-labelledby="systemId">
         <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
@@ -185,7 +186,7 @@ function handleKeyDown(event) {
     }
   }
 
-export function invitation_Guest()
+function invitation_Guest()
 {
   const ContactCard = roleInstance( emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) );
   return (<Container>
@@ -216,3 +217,9 @@ export function invitation_Guest()
     </section>
   </Container>)
 }
+
+export default makeScreens( 
+  { perspectivesSystem_User: perspectivesSystem_User
+  , invitation_Guest: invitation_Guest
+  }
+);

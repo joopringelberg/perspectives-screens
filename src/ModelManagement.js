@@ -15,7 +15,7 @@ import
   , Tooltip
   } from "react-bootstrap";
 
-export function modelManagementApp_Manager()
+function modelManagementApp_Manager()
 {
   // A ref to dispatch an event from.
   const modelListRef = React.createRef();
@@ -107,7 +107,7 @@ export function modelManagementApp_Manager()
           </PR.PerspectivesContainer>
 }
 
-export function managedModel_Author()
+function managedModel_Author()
 {
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
             <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all models"/></Col></Row>
@@ -230,3 +230,9 @@ function Feedback( props )
 }
 
 Feedback.propTypes = { message: PropTypes.arrayOf( PropTypes.string.isRequired ) };
+
+export default PR.makeScreens(
+  { modelManagementApp_Manager: modelManagementApp_Manager
+  , managedModel_Author: managedModel_Author
+  }
+);
