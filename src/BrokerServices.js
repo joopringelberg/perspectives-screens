@@ -1,23 +1,14 @@
-import React, { Component, useState, useRef } from "react"; // ###11###
+import React from "react"; // ###11###
 
 import * as PR from "perspectives-react";
 
 import
-  { Button
-  , Form
-  , InputGroup
-  , Container
-  , Row
+  { Row
   , Col
-  , Card
-  , Nav
-  , OverlayTrigger
-  , Tooltip
-  } from "react-bootstrap";
+} from "react-bootstrap";
 
-import {ArrowRightIcon} from '@primer/octicons-react'
 
-function brokerServices_Guest()
+export function brokerServices_Guest()
 {
   function BrokersAndContracts()
   {
@@ -39,19 +30,19 @@ function brokerServices_Guest()
               </Row>
               <Row>
                 <Col>
-                  <PR.RoleTable viewname="allProperties" roletype="Contracts" cardcolumn="Name" createButton={false}/>
+                  <PR.RoleTable viewname="Account" roletype="Contracts" cardcolumn="LastNameOfAccountHolder" createButton={false}/>
                 </Col>
               </Row>
             </>
-    )
+    );
   }
 
   return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="managedModelBrokerId">
             <BrokersAndContracts/>
-          </PR.PerspectivesContainer>
+          </PR.PerspectivesContainer>;
 }
 
-function brokerService_Administrator()
+export function brokerService_Administrator()
 {
   return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
             <Row className="pb-3 pt-2">
@@ -63,14 +54,17 @@ function brokerService_Administrator()
             <PR.RoleForm rolename="Administrator" viewname="Admin"/>
             <PR.RoleForm rolename="External" viewname="allProperties"/>
             <Row className="pb-3 pt-2">
+              <Col><h4>Accounts</h4></Col>
+            </Row>
+            <Row className="pb-3 pt-2">
               <Col>
                 <PR.RoleTable viewname="Account" roletype="Accounts" cardcolumn="FirstNameOfAccountHolder" contexttocreate="model:BrokerServices$BrokerContract"/>
               </Col>
             </Row>
-          </PR.PerspectivesContainer>
+          </PR.PerspectivesContainer>;
 }
 
-function brokerContract_Administrator()
+export function brokerContract_Administrator()
 {
   return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
             <Row className="pb-3 pt-2">
@@ -81,13 +75,20 @@ function brokerContract_Administrator()
             </Row>
             <PR.RoleForm rolename="Administrator" viewname="Confirmation"/>
             <PR.RoleForm rolename="AccountHolder" viewname="ForAdministrator"/>
-            <PR.RoleForm rolename="External" viewname="ForAdministrator"/>
-          </PR.PerspectivesContainer>
+            <PR.Invitation/>
+          </PR.PerspectivesContainer>;
 }
 
-export default PR.makeScreens(
-  { brokerServices_Guest: brokerServices_Guest
-  , brokerService_Administrator: brokerService_Administrator
-  , brokerContract_Administrator: brokerContract_Administrator
-  }
-);
+export function brokerContract_AccountHolder()
+{
+  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
+            <Row className="pb-3 pt-2">
+              <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
+            </Row>
+            <Row>
+              <Col><h3>Broker Contract</h3></Col>
+            </Row>
+            <PR.RoleForm rolename="External" viewname="ForAccountHolder"/>
+            <PR.RoleForm rolename="AccountHolder" viewname="ForAccountHolder"/>
+          </PR.PerspectivesContainer>;
+}
