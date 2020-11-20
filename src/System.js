@@ -1,55 +1,55 @@
-// The screen for model:System$PerspectivesSystem. 43
+// The screen for model:System$PerspectivesSystem. 46
 
 const React = require("react");
 
 import
   { Rol
-  , PSRol
-  , Bind
-  , PSRolBinding
   , View
   , PSView
-  , RolBinding
   , ExternalRole
-  , PerspectivesComponent
-  , RoleInstances
   , roleInstance
-  , RoleInstanceIterator
   , PSRoleInstances
   , AppContext
-  , CardList
   , SimpleCardForRole
-  , DropZone
+  , CreateDropZone
+  , RoleTable
+  , PerspectivesContainer
+  , RoleInstances
+  , NoInstancesSwitcher
+  , RoleInstanceIterator
+  , viewIncomingInvitation
   , emptyCard
-  , makeScreens
   } from "perspectives-react";
 
 import {Container, Form, Row, Col, Card, Tabs, Tab} from "react-bootstrap";
 
-import {ArrowRightIcon} from '@primer/octicons-react'
+import {ArrowRightIcon} from '@primer/octicons-react';
 
-function perspectivesSystem_User()
+export function perspectivesSystem_User()
 {
-  return <Container role="application" aria-labelledby="systemId">
+  return <PerspectivesContainer role="application" aria-labelledby="systemId">
         <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
           <Tab eventKey="apps" title="Apps">
             <Row>
-              <Bind rol="ModelsInUse">
-                <Col lg={6} className="border p-3 d-flex">
+              <Col lg={6} className="border p-3 ">
+                <h4>In use</h4><br/>
+                <RoleInstances rol="ModelsInUse">
                   <ModelDropZone>
-                    <h4>In use</h4>
-                    <CardList rol="ModelsInUse">
-                      <SimpleCardForRole labelProperty="Name"/>
-                    </CardList>
+                    <NoInstancesSwitcher>
+                      <p>Drop a model here</p>
+                      <RoleInstanceIterator>
+                        <SimpleCardForRole labelProperty="Name"/>
+                      </RoleInstanceIterator>
+                    </NoInstancesSwitcher>
                   </ModelDropZone>
-                </Col>
-              </Bind>
+                </RoleInstances>
+              </Col>
               <Col lg={6} className="border p-3">
                 <h4>In Repository</h4>
-                <CardList rol="Modellen">
+                <Rol rol="Modellen">
                   <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
                   <SimpleCardForRole labelProperty="Name"/>
-                </CardList>
+                </Rol>
               </Col>
             </Row>
           </Tab>
@@ -77,8 +77,15 @@ function perspectivesSystem_User()
               </View>
             </Rol>
           </Tab>
+          <Tab eventKey="invitations" title="Pending Invitations">
+          <Row>
+            <Col>
+              <RoleTable viewname="ForInvitee" roletype="PendingInvitations" cardcolumn="InviterLastName"/>
+            </Col>
+          </Row>
+          </Tab>
         </Tabs>
-      </Container>
+      </PerspectivesContainer>;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,7 +93,7 @@ function perspectivesSystem_User()
 // This ModelDropZone is specialised for System. To import a model, we just need to
 // check the binding of the external role of the model description. The model then
 // will load on the fly.
-// The more general case of a DropZone must support explicit dropping.
+// The more general case of a CreateDropZone must support explicit dropping.
 ////////////////////////////////////////////////////////////////////////////////
 class ModelDropZone extends React.PureComponent
 {
@@ -98,7 +105,7 @@ class ModelDropZone extends React.PureComponent
   checkBinding ( event, roleId, setSelectedCard, setPositionToMoveTo )
   {
     const component = this;
-    const eventDivRect = component.eventDiv.current.getBoundingClientRect()
+    const eventDivRect = component.eventDiv.current.getBoundingClientRect();
     switch(event.keyCode){
       case 13: // Enter
       case 32: // space
@@ -122,7 +129,7 @@ class ModelDropZone extends React.PureComponent
                 }
               } );
           },
-          900)
+          900);
         event.preventDefault();
         break;
       }
@@ -130,7 +137,7 @@ class ModelDropZone extends React.PureComponent
 
   handleDrop (psrol)
   {
-    this.context.bind( psrol );
+    this.context.checkbinding( psrol, function(){} );
   }
 
   render ()
@@ -151,17 +158,17 @@ class ModelDropZone extends React.PureComponent
                 onDragLeave={ev => ev.target.classList.remove("border-primary", "border")}
                 onKeyDown={ev => component.checkBinding( ev, selectedRole, setSelectedCard, setPositionToMoveTo )}
                 style={{flexGrow: 1}}
-                className="p-2"
+                className="p-2 pb-3"
                 aria-dropeffect="execute"
                 aria-label="Drop an App here to get it from the repository."
               >
                 {component.props.children}
               </div>}
-            </AppContext.Consumer>
+            </AppContext.Consumer>;
   }
 }
 
-ModelDropZone.contextType = PSRolBinding;
+ModelDropZone.contextType = PSRoleInstances;
 
 ////////////////////////////////////////////////////////////////////////////////
 function Message()
@@ -177,49 +184,19 @@ function Message()
                 </View>
               </ExternalRole>
             </Col>
-          </Form.Group>
+          </Form.Group>;
 }
 
-function handleKeyDown(event) {
-    if (event.keyCode === 13 ) {
-      event.preventDefault();
-    }
-  }
+// function handleKeyDown(event) {
+//     if (event.keyCode === 13 ) {
+//       event.preventDefault();
+//     }
+//   }
 
-function invitation_Guest()
+// TODO: vervang door de component uit perspectives-react.
+export function invitation_Guest()
 {
-  const ContactCard = roleInstance( emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) );
-  return (<Container>
-    <Message/>
-    <section aria-label="Received invitation">
-      <Form.Group as={Row} controlId="initiator" className="align-items-center">
-        <Col sm="4">
-          <CardList rol="Guest">
-            <ContactCard labelProperty="Voornaam"/>
-          </CardList>
-        </Col>
-        <Col sm="4 text-center">
-          <ArrowRightIcon alt="ArrowRight" size="large"/>
-        </Col>
-        <Col sm="4">
-          <Rol rol="Partner">
-            <DropZone ariaLabel="To accept the invitation, drag your own contact card over here and drop it.">
-              <Card>
-                <Card.Body>
-                  <p>To accept the invitation, drag your own contact card over here and drop it.</p>
-                </Card.Body>
-              </Card>
-            </DropZone>
-            <p>This will actually never display because the role changes as soon as there is a binding for Partner. But we need it to display the card above!</p>
-          </Rol>
-        </Col>
-      </Form.Group>
-    </section>
-  </Container>)
+  return  <PerspectivesContainer>
+            {viewIncomingInvitation()}
+          </PerspectivesContainer>;
 }
-
-export default makeScreens( 
-  { perspectivesSystem_User: perspectivesSystem_User
-  , invitation_Guest: invitation_Guest
-  }
-);

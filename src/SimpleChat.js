@@ -1,24 +1,22 @@
-import React, { Component, useState, useRef } from "react"; // ###78###
+import React from "react"; // ###78###
+import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
 
 import
   { Button
   , Form
-  , InputGroup
   , Container
   , Row
   , Col
   , Card
   , Nav
-  , OverlayTrigger
-  , Tooltip
   } from "react-bootstrap";
 
 import "./SimpleChat.css";
 
 // model:SimpleChat$ChatApp$Chatter
-function chatApp_Chatter()
+export function chatApp_Chatter()
 {
   // A ref to dispatch an event from.
   const chatListRef = React.createRef();
@@ -31,6 +29,7 @@ function chatApp_Chatter()
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
   function ListOfChats()
   {
+    // eslint-disable-next-line react/display-name
     const SingleChat = PR.roleInstance( React.forwardRef(function (props, ref)
       {
         function alabel(values)
@@ -39,9 +38,9 @@ function chatApp_Chatter()
         }
         return  <PR.View viewname="allProperties">
                   <PR.PSView.Consumer>
-                    {value => <li role="listitem" ref={ref} onClick={e => setSelectedChat(value.rolinstance)} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
+                    {value => <li role="listitem" ref={ref} onClick={() => setSelectedChat(value.rolinstance)} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
                   </PR.PSView.Consumer>
-                </PR.View>
+                </PR.View>;
       }
       ) );
 
@@ -68,13 +67,13 @@ function chatApp_Chatter()
               <Row>
                 <Col>
                   <ul>
-                    <PR.CardList rol="Chats">
+                    <PR.Rol rol="Chats">
                       <SingleChat labelProperty="Title"/>
-                    </PR.CardList>
+                    </PR.Rol>
                   </ul>
                 </Col>
               </Row>
-            </>
+            </>;
   }
 
   function chatTitle(value)
@@ -91,7 +90,7 @@ function chatApp_Chatter()
         }
         else
         {
-          return "New chat"
+          return "New chat";
         }
   }
 
@@ -101,8 +100,12 @@ function chatApp_Chatter()
       "rollen": { "model:SimpleChat$Chat$Initiator":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}
     };
-    return <Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedChat(erole))}>Start a chat</Button>;
+    return <Button variant="light" onClick={() => props.create(ctxt).then(erole => setSelectedChat(erole))}>Start a chat</Button>;
   }
+  CreateButton.propTypes =
+    { binding: PropTypes.function
+    , create: PropTypes.function
+    };
 
   return  <PR.PerspectivesContainer
             className="border border-secondary rounded p-3 mt-3"
@@ -110,19 +113,13 @@ function chatApp_Chatter()
             aria-labelledby="simpleChatId"
           >
             <ListOfChats/>
-          </PR.PerspectivesContainer>
+          </PR.PerspectivesContainer>;
 }
 
-function handleKeyDown(event) {
-    if (event.keyCode === 13 ) {
-      event.preventDefault();
-    }
-  }
-
 // model:SimpleChat$Chat$Initiator
-function chat_Initiator()
+export function chat_Initiator()
 {
-  function Title(props)
+  function Title()
   {
     return  <PR.ExternalRole>
               <PR.View viewname="allProperties">
@@ -143,7 +140,7 @@ function chat_Initiator()
                   </Col>
                 </Form.Group>
               </PR.View>
-            </PR.ExternalRole>
+            </PR.ExternalRole>;
   }
 
   function SelectContact()
@@ -153,17 +150,17 @@ function chat_Initiator()
         <Row className="mb-3">
           <Col lg={6}>
             <Row>
-              <Col><h4>This chat's partner</h4></Col>
+              <Col><h4>This chat&apos;s partner</h4></Col>
             </Row>
             <Row>
-              <PR.DropZone ariaLabel="Press space to drop the selected contact card to start chatting.">
+              <PR.CreateDropZone ariaLabel="Press space to drop the selected contact card to start chatting.">
                 <Card>
                   <Card.Body>
                     <p>Select a contact card on the right and drop it here to start chatting.</p>
                   </Card.Body>
                 </Card>
                 <br/>
-              </PR.DropZone>
+              </PR.CreateDropZone>
             </Row>
           </Col>
           <Col lg={6}>
@@ -172,24 +169,16 @@ function chat_Initiator()
             </Row>
             <Row>
               <Col>
-                <PR.CardList rol="PotentialPartners">
+                <PR.Rol rol="PotentialPartners">
                   <p>You seem to have no contacts. Try inviting someone!</p>
                   <ContactCard labelProperty="Voornaam"/>
-                </PR.CardList>
+                </PR.Rol>
               </Col>
             </Row>
           </Col>
         </Row>
-      </section>
+      </section>;
   }
-
-  function startDragging(ev, value)
-  {
-    // ARIA
-    ev.target.setAttribute("grab", "true");
-    return ev.dataTransfer.setData("PSRol", JSON.stringify(value))
-  }
-
 
   function Invitation()
   {
@@ -234,7 +223,7 @@ function chat_Initiator()
                     </Col>
                     <Col><p>Click the button to download an invitation file. An invitation file is personal! Send it to the person you want to invite to connect, through a secure channel.</p></Col>
                   </Row>
-                </>
+                </>;
       }
       else
       {
@@ -253,30 +242,11 @@ function chat_Initiator()
                       <InvitationCard required={value.propval("IWantToInviteAnUnconnectedUser")[0] == ["true"]} serialisation={value.propval("SerialisedInvitation") }/>
                     </>)}
               </PR.PSView.Consumer>
-            </PR.ViewOnExternalRole>
+            </PR.ViewOnExternalRole>;
 
   }
 
-  function Explanation ()
-  {
-    const [show, setShow] = useState(false);
-    const target = useRef(null);
-    return <OverlayTrigger
-            placement="right"
-            overlay={ <Tooltip className="bg-danger">
-                        By creating an invitation, you've set up a channel of communication to be used by exactly one other Perspectives user.
-                        Confusion will arise more people try to use the same channel!
-                      </Tooltip>} >
-            <a className="text-danger" ref={target} onClick={() => setShow(!show)}>Why?</a>
-          </OverlayTrigger>
-  }
-
-  function Response(props)
-  {
-    return <Form.Control defaultValue={props.defaultvalue} readOnly/>;
-  }
-
-  function Chat(props)
+  function Chat()
   {
     // return <Form onKeyDown={handleKeyDown}>
     return <section aria-label="Chat area" >
@@ -319,7 +289,7 @@ function chat_Initiator()
                   </PR.PSView.Consumer>
                 </PR.View>
               </PR.Rol>
-          </section>
+          </section>;
   }
 
   return <Container className="bg-light border rounded rounded p-3">
@@ -332,12 +302,7 @@ function chat_Initiator()
         </>
         <Chat/>
       </PR.Rol>
-    </Container>
+    </Container>;
 }
 
-export default PR.makeScreens(
-  { chat_Partner: chat_Initiator
-  , chatApp_Chatter: chatApp_Chatter
-  , chat_Initiator: chat_Initiator
-  }
-);
+export const chat_Partner = chat_Initiator;

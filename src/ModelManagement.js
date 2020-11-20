@@ -1,21 +1,17 @@
-import React, { Component, useState, useRef } from "react"; // ###3###
+import React from "react"; // ###3###
+import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
 
 import
   { Button
-  , Form
-  , InputGroup
   , Container
   , Row
   , Col
   , Card
-  , Nav
-  , OverlayTrigger
-  , Tooltip
   } from "react-bootstrap";
 
-function modelManagementApp_Manager()
+export function modelManagementApp_Manager()
 {
   // A ref to dispatch an event from.
   const modelListRef = React.createRef();
@@ -27,10 +23,11 @@ function modelManagementApp_Manager()
 
   function ModelsAndRepositories()
   {
+    // eslint-disable-next-line react/display-name
     const SingleManagedModel = PR.roleInstance( React.forwardRef((props, ref) =>
           <PR.View viewname="allProperties">
             <PR.PSView.Consumer>
-              {value => <li ref={ref} onClick={e => setSelectedModel( value.rolinstance )} aria-label={value.propval(props.labelProperty) || "New Managed Model"}><a href="#">{modelTitle(value)}</a></li> }
+              {value => <li ref={ref} onClick={() => setSelectedModel( value.rolinstance )} aria-label={value.propval(props.labelProperty) || "New Managed Model"}><a href="#">{modelTitle(value)}</a></li> }
             </PR.PSView.Consumer>
           </PR.View>
       ) );
@@ -56,9 +53,9 @@ function modelManagementApp_Manager()
               <Row>
                 <Col>
                   <ul>
-                    <PR.CardList rol="Models">
+                    <PR.Rol rol="Models">
                       <SingleManagedModel labelProperty="Name"/>
-                    </PR.CardList>
+                    </PR.Rol>
                   </ul>
                 </Col>
               </Row>
@@ -73,7 +70,7 @@ function modelManagementApp_Manager()
                 </Col>
               </Row>
             </>
-    )
+    );
   }
 
   function modelTitle(value)
@@ -85,7 +82,7 @@ function modelManagementApp_Manager()
       }
       else
       {
-        return "New model"
+        return "New model";
       }
   }
 
@@ -95,8 +92,12 @@ function modelManagementApp_Manager()
       "rollen": { "model:ModelManagement$ManagedModel$Author":  [ { "properties": {}, "binding": props.binding } ] },
       "externeProperties": {}
     };
-    return (<Button variant="light" onClick={e => props.create(ctxt).then(erole => setSelectedModel( erole ))}>New model</Button>);
+    return (<Button variant="light" onClick={() => props.create(ctxt).then(erole => setSelectedModel( erole ))}>New model</Button>);
   }
+
+  CreateButton.propTypes =
+    { binding: PropTypes.function
+    };
 
   return  <PR.PerspectivesContainer
             className="border border-secondary rounded p-3 mt-3"
@@ -104,10 +105,10 @@ function modelManagementApp_Manager()
             aria-labelledby="managedModelsId"
           >
             <ModelsAndRepositories/>
-          </PR.PerspectivesContainer>
+          </PR.PerspectivesContainer>;
 }
 
-function managedModel_Author()
+export function managedModel_Author()
 {
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
             <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all models"/></Col></Row>
@@ -121,10 +122,8 @@ function managedModel_Author()
                 <Card>
                   <Card.Header>Model description</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="ModelDescription">
-                      <PR.DropZone ariaLabel="Drop a Model here.">
-                        <p>Drop a Model here</p>
-                      </PR.DropZone>
+                    <PR.Rol rol="ModelDescription" allowExtension={true}>
+                      <p ariaLabel="Drop a Model role here.">Drop a Model here</p>
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
@@ -136,10 +135,8 @@ function managedModel_Author()
                 <Card>
                   <Card.Header>Repository for this model</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="Repository">
-                      <PR.DropZone ariaLabel="Drop a Repository role here.">
-                        <p>Drop Repository here</p>
-                      </PR.DropZone>
+                    <PR.Rol rol="Repository" allowExtension={true}>
+                        <p ariaLabel="Drop a Repository role here.">Drop Repository here</p>
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
@@ -230,9 +227,3 @@ function Feedback( props )
 }
 
 Feedback.propTypes = { message: PropTypes.arrayOf( PropTypes.string.isRequired ) };
-
-export default PR.makeScreens(
-  { modelManagementApp_Manager: modelManagementApp_Manager
-  , managedModel_Author: managedModel_Author
-  }
-);
