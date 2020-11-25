@@ -79,7 +79,8 @@ export function chatApp_Chatter()
   function chatTitle(value)
   {
       const title = value.propval("Title");
-      const partner = value.propval("WithPartner");
+      // const partner = value.propval("WithPartner");
+      const partner = false;
       if (title[0])
       {
         return title[0];
@@ -103,8 +104,8 @@ export function chatApp_Chatter()
     return <Button variant="light" onClick={() => props.create(ctxt).then(erole => setSelectedChat(erole))}>Start a chat</Button>;
   }
   CreateButton.propTypes =
-    { binding: PropTypes.function
-    , create: PropTypes.function
+    { binding: PropTypes.string
+    , create: PropTypes.func
     };
 
   return  <PR.PerspectivesContainer
@@ -295,13 +296,17 @@ export function chat_Initiator()
   return <Container className="bg-light border rounded rounded p-3">
       <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
       <Title/>
-      <PR.Rol rol="Partner">
-        <>
-          <SelectContact/>
-          <Invitation/>
-        </>
-        <Chat/>
-      </PR.Rol>
+      <PR.RoleInstances rol="Partner">
+          <PR.NoInstancesSwitcher>
+            <>
+              <SelectContact/>
+              <Invitation/>
+            </>
+            <PR.RoleInstanceIterator>
+              <Chat/>
+            </PR.RoleInstanceIterator>
+          </PR.NoInstancesSwitcher>
+      </PR.RoleInstances>
     </Container>;
 }
 

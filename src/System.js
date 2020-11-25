@@ -4,26 +4,19 @@ const React = require("react");
 
 import
   { Rol
-  , View
-  , PSView
-  , ExternalRole
-  , roleInstance
   , PSRoleInstances
   , AppContext
   , SimpleCardForRole
-  , CreateDropZone
   , RoleTable
   , PerspectivesContainer
   , RoleInstances
   , NoInstancesSwitcher
   , RoleInstanceIterator
+  , RoleForm
   , viewIncomingInvitation
-  , emptyCard
   } from "perspectives-react";
 
-import {Container, Form, Row, Col, Card, Tabs, Tab} from "react-bootstrap";
-
-import {ArrowRightIcon} from '@primer/octicons-react';
+import {Row, Col, Tabs, Tab} from "react-bootstrap";
 
 export function perspectivesSystem_User()
 {
@@ -54,28 +47,7 @@ export function perspectivesSystem_User()
             </Row>
           </Tab>
           <Tab eventKey="user" title="User information">
-            <Rol rol="User">
-              <View viewname="allProperties">
-                <PSView.Consumer>
-                { view =>
-                  <>
-                    <Form.Group as={Row}>
-                      <Form.Label column sm="3">First name:</Form.Label>
-                      <Col sm="9">
-                        <Form.Control aria-label="First name" defaultValue={view.propval("Voornaam")} onBlur={e => view.propset("Voornaam", e.target.value)}/>
-                      </Col>
-                    </Form.Group>
-                    <Form.Group as={Row}>
-                      <Form.Label column sm="3">Last name:</Form.Label>
-                      <Col sm="9">
-                        <Form.Control aria-label="Last name" defaultValue={view.propval("Achternaam")} onBlur={e => view.propset("Achternaam", e.target.value)}/>
-                      </Col>
-                    </Form.Group>
-                  </>
-                }
-                </PSView.Consumer>
-              </View>
-            </Rol>
+            <RoleForm rolename="User" viewname="VolledigeNaam" cardprop="Achternaam"/>
           </Tab>
           <Tab eventKey="invitations" title="Pending Invitations">
           <Row>
@@ -171,29 +143,7 @@ class ModelDropZone extends React.PureComponent
 ModelDropZone.contextType = PSRoleInstances;
 
 ////////////////////////////////////////////////////////////////////////////////
-function Message()
-{
-  return <Form.Group as={Row}>
-            <Form.Label column sm="3">You are invited:</Form.Label>
-            <Col sm="9">
-              <ExternalRole>
-                <View viewname="allProperties">
-                  <PSView.Consumer>
-                    {props => <Form.Control className="font-italic" plaintext readOnly defaultValue={props.propval("Message")}/>}
-                  </PSView.Consumer>
-                </View>
-              </ExternalRole>
-            </Col>
-          </Form.Group>;
-}
 
-// function handleKeyDown(event) {
-//     if (event.keyCode === 13 ) {
-//       event.preventDefault();
-//     }
-//   }
-
-// TODO: vervang door de component uit perspectives-react.
 export function invitation_Guest()
 {
   return  <PerspectivesContainer>

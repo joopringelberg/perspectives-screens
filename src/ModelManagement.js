@@ -96,7 +96,7 @@ export function modelManagementApp_Manager()
   }
 
   CreateButton.propTypes =
-    { binding: PropTypes.function
+    { binding: PropTypes.string
     };
 
   return  <PR.PerspectivesContainer
