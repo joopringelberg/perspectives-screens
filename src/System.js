@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 46
+// The screen for model:System$PerspectivesSystem. 47
 
 const React = require("react");
 
@@ -13,7 +13,8 @@ import
   , NoInstancesSwitcher
   , RoleInstanceIterator
   , RoleForm
-  , viewIncomingInvitation
+  , LocalRoleSpecialisation
+  , ViewIncomingInvitation
   } from "perspectives-react";
 
 import {Row, Col, Tabs, Tab} from "react-bootstrap";
@@ -147,6 +148,8 @@ ModelDropZone.contextType = PSRoleInstances;
 export function invitation_Guest()
 {
   return  <PerspectivesContainer>
-            {viewIncomingInvitation()}
+            <LocalRoleSpecialisation ofrole="Invitee">
+              <ViewIncomingInvitation/>
+            </LocalRoleSpecialisation>
           </PerspectivesContainer>;
 }
