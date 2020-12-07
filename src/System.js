@@ -1,10 +1,9 @@
-// The screen for model:System$PerspectivesSystem. 47
+// The screen for model:System$PerspectivesSystem. 50
 
 const React = require("react");
 
 import
-  { Rol
-  , PSRoleInstances
+  { PSRoleInstances
   , AppContext
   , SimpleCardForRole
   , RoleTable
@@ -40,10 +39,14 @@ export function perspectivesSystem_User()
               </Col>
               <Col lg={6} className="border p-3">
                 <h4>In Repository</h4>
-                <Rol rol="Modellen">
-                  <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
-                  <SimpleCardForRole labelProperty="Name"/>
-                </Rol>
+                <RoleInstances rol="Modellen">
+                  <NoInstancesSwitcher>
+                    <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
+                    <RoleInstanceIterator>
+                      <SimpleCardForRole labelProperty="Name"/>
+                    </RoleInstanceIterator>
+                  </NoInstancesSwitcher>
+                </RoleInstances>
               </Col>
             </Row>
           </Tab>
