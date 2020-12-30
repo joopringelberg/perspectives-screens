@@ -123,7 +123,7 @@ export function managedModel_Author()
                   <Card.Header>Model description</Card.Header>
                   <Card.Body>
                     <PR.Rol rol="ModelDescription" allowExtension={true}>
-                      <p ariaLabel="Drop a Model role here.">Drop a Model here</p>
+                      <p aria-label="Drop a Model role here.">Drop a Model here</p>
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
@@ -136,7 +136,7 @@ export function managedModel_Author()
                   <Card.Header>Repository for this model</Card.Header>
                   <Card.Body>
                     <PR.Rol rol="Repository" allowExtension={true}>
-                        <p ariaLabel="Drop a Repository role here.">Drop Repository here</p>
+                        <p aria-label="Drop a Repository role here.">Drop Repository here</p>
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
