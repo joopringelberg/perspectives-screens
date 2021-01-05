@@ -269,6 +269,11 @@ export function chat_Initiator()
                   }
                   </PR.PSView.Consumer>
                 </PR.View>
+                <PR.PSRol.Consumer>
+                {
+                  psrol => <Button href="#" onClick={psrol.removerol}>Pull out of this chat</Button>
+                }
+                </PR.PSRol.Consumer>
               </PR.Rol>
               <PR.Rol rol="You">
                 <PR.View viewname="allProperties">
