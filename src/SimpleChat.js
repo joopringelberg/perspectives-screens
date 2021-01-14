@@ -249,7 +249,7 @@ export function chat_Initiator()
 
   function Chat()
   {
-    // return <Form onKeyDown={handleKeyDown}>
+    // return <Form onKeyDown={handleKeyDown}> 
     return <section aria-label="Chat area" >
               <PR.Rol rol="Me">
                 <PR.View viewname="allProperties">
@@ -298,6 +298,8 @@ export function chat_Initiator()
           </section>;
   }
 
+  // We could use a PerspectivesContainer, but we do not navigate to deeper nested contexts. However, we do deploy the
+  // BackButton that belongs to the PerspectivesContainer.
   return <Container className="bg-light border rounded rounded p-3">
       <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
       <Title/>

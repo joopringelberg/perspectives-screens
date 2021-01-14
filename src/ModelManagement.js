@@ -1,4 +1,4 @@
-import React from "react"; // ###3###
+import React, { useState } from 'react';
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -110,6 +110,17 @@ export function modelManagementApp_Manager()
 
 export function managedModel_Author()
 {
+  const [lastReloadTime, setLastReloadTime] = useState(0);
+  function ShowReloadTime()
+  {
+    if (lastReloadTime == 0)
+    {
+      return <Card.Text>This model hasn&apos;t been loaded yet during this session</Card.Text>;
+    }
+    else {
+      return <Card.Text>Last reload at: {lastReloadTime.toLocaleTimeString('en-UK')}</Card.Text>;
+    }
+  }
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
             <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all models"/></Col></Row>
             <Row>
@@ -153,7 +164,15 @@ export function managedModel_Author()
                         <Card.Header>Arc file parse results</Card.Header>
                         <Card.Body>
                           <Feedback message={psview.propval("ArcFeedback")}/>
-                          <Button variant="primary" onClick={() => psview.propdel("ArcFeedback")}>Reload Arc file</Button>
+                          <Button variant="primary" onClick=
+                            {
+                              function()
+                              {
+                                setLastReloadTime(new Date());
+                                psview.propdel("ArcFeedback");
+                              }
+                            }>Reload Arc file</Button>
+                          <ShowReloadTime/>
                         </Card.Body>
                       </Card>
                     </Col>
@@ -164,7 +183,14 @@ export function managedModel_Author()
                         <Card.Header>Crl file parse results</Card.Header>
                         <Card.Body>
                           <Feedback message={psview.propval("CrlFeedback")}/>
-                          <Button variant="primary" onClick={() => psview.propdel("CrlFeedback")}>Reload Crl file</Button>
+                          <Button variant="primary" onClick={
+                            function()
+                            {
+                              setLastReloadTime(new Date());
+                              psview.propdel("CrlFeedback");
+                            }
+                          }>Reload Crl file</Button>
+                          <ShowReloadTime/>
                         </Card.Body>
                       </Card>
                     </Col>
@@ -175,13 +201,13 @@ export function managedModel_Author()
                         tooltiptext="Drop an .arc file here or press enter/space"
                         handlefile={ function(file)
                           {
-                            psview.propset( "ArcPath", file.path );
+                            file.text().then( source => psview.propset( "ArcSource", source ) );
                           }}
                         extension="arc">
                         <Card tabIndex="-1">
                           <Card.Header>Arc file path</Card.Header>
                           <Card.Body>
-                            { psview.propval( "ArcPath")[0] ? psview.propval( "ArcPath")[0] : "Drop .arc file here, or click / select + press space to open file selector."}
+                            { psview.propval( "ArcSource")[0] ? psview.propval( "ArcSource")[0].match(/[^\r\n]+/g)[0] : "Drop .arc file here, or click / select + press space to open file selector."}
                           </Card.Body>
                         </Card>
                       </PR.FileDropZone>
@@ -193,13 +219,13 @@ export function managedModel_Author()
                         tooltiptext="Drop an .arc file here or press enter/space"
                         handlefile={ function(file)
                           {
-                            psview.propset( "CrlPath", file.path );
+                            file.text().then( source => psview.propset( "CrlSource", source ) );
                           }}
                         extension="crl">
                         <Card tabIndex="-1">
                           <Card.Header>Crl file path</Card.Header>
                           <Card.Body>
-                            { psview.propval( "CrlPath")[0] ? psview.propval( "CrlPath")[0] : "Drop .crl file here, or click / select + press space to open file selector."}
+                            { psview.propval( "CrlSource")[0] ? psview.propval( "CrlSource")[0].match(/[^\r\n]+/g)[0] : "Drop .crl file here, or click / select + press space to open file selector."}
                           </Card.Body>
 
                         </Card>
