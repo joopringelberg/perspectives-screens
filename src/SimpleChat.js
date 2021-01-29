@@ -1,4 +1,4 @@
-import React from "react"; // ###78###
+import React from "react"; // ###80###
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -38,7 +38,12 @@ export function chatApp_Chatter()
         }
         return  <PR.View viewname="allProperties">
                   <PR.PSView.Consumer>
-                    {value => <li role="listitem" ref={ref} onClick={() => setSelectedChat(value.rolinstance)} aria-label={alabel(value.propval(props.labelProperty))}><a href="#" tabIndex="-1">{chatTitle(value)}</a></li> }
+                    {value => <li
+                      role="listitem"
+                      ref={ref}
+                      aria-label={alabel(value.propval(props.labelProperty))}>
+                        <PR.PerspectivesLink rolinstance={value.rolinstance} linktext={chatTitle(value)} handler={() => setSelectedChat( value.rolinstance )}/>
+                      </li> }
                   </PR.PSView.Consumer>
                 </PR.View>;
       }
@@ -249,7 +254,7 @@ export function chat_Initiator()
 
   function Chat()
   {
-    // return <Form onKeyDown={handleKeyDown}> 
+    // return <Form onKeyDown={handleKeyDown}>
     return <section aria-label="Chat area" >
               <PR.Rol rol="Me">
                 <PR.View viewname="allProperties">

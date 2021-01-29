@@ -26,7 +26,7 @@ module.exports = {
   },
   watch: false,
   mode: "development",
-  target: "electron-renderer",
+  target: "web",
   plugins: [
     new EsmWebpackPlugin()
     ],
