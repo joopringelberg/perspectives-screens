@@ -27,7 +27,17 @@ export function modelManagementApp_Manager()
     const SingleManagedModel = PR.roleInstance( React.forwardRef((props, ref) =>
           <PR.View viewname="allProperties">
             <PR.PSView.Consumer>
-              {value => <li ref={ref} onClick={() => setSelectedModel( value.rolinstance )} aria-label={value.propval(props.labelProperty) || "New Managed Model"}><a href="#">{modelTitle(value)}</a></li> }
+            {
+              value =>  <li
+                          role="listitem"
+                          ref={ref}
+                          aria-label={value.propval(props.labelProperty) || "New Managed Model"}>
+                            <PR.PerspectivesLink
+                              rolinstance={value.rolinstance}
+                              linktext={modelTitle(value)}
+                              handler={() => setSelectedModel( value.rolinstance )}/>
+                        </li>
+            }
             </PR.PSView.Consumer>
           </PR.View>
       ) );
@@ -133,8 +143,7 @@ export function managedModel_Author()
                 <Card>
                   <Card.Header>Model description</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="ModelDescription" allowExtension={true}>
-                      <p aria-label="Drop a Model role here.">Drop a Model here</p>
+                    <PR.Rol rol="ModelDescription" allowExtension={true} ariaLabel="Drop a Model role here.">
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
@@ -146,8 +155,7 @@ export function managedModel_Author()
                 <Card>
                   <Card.Header>Repository for this model</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="Repository" allowExtension={true}>
-                        <p aria-label="Drop a Repository role here.">Drop Repository here</p>
+                    <PR.Rol rol="Repository" allowExtension={true} ariaLabel="Drop a Repository role here.">
                       <PR.SimpleCardForRole labelProperty="Name" />
                     </PR.Rol>
                   </Card.Body>
