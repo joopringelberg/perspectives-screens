@@ -32,10 +32,7 @@ export function modelManagementApp_Manager()
                           role="listitem"
                           ref={ref}
                           aria-label={value.propval(props.labelProperty) || "New Managed Model"}>
-                            <PR.PerspectivesLink
-                              rolinstance={value.rolinstance}
-                              linktext={modelTitle(value)}
-                              handler={() => setSelectedModel( value.rolinstance )}/>
+                            <PR.PerspectivesLink linktext={modelTitle(value)}/>
                         </li>
             }
             </PR.PSView.Consumer>

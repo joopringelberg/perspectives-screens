@@ -1,4 +1,4 @@
-import React from "react"; // ###80###
+import React from "react"; // ###81###
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -42,7 +42,7 @@ export function chatApp_Chatter()
                       role="listitem"
                       ref={ref}
                       aria-label={alabel(value.propval(props.labelProperty))}>
-                        <PR.PerspectivesLink rolinstance={value.rolinstance} linktext={chatTitle(value)} handler={() => setSelectedChat( value.rolinstance )}/>
+                        <PR.PerspectivesLink linktext={chatTitle(value)}/>
                       </li> }
                   </PR.PSView.Consumer>
                 </PR.View>;
