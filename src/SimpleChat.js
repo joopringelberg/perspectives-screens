@@ -29,25 +29,15 @@ export function chatApp_Chatter()
   // The state is an array that holds either no elements, or a single Chat (that is, its external role).
   function ListOfChats()
   {
-    // eslint-disable-next-line react/display-name
-    const SingleChat = PR.roleInstance( React.forwardRef(function (props, ref)
-      {
-        function alabel(values)
+    const SingleChat = PR.addBehaviour(
+      PR.makeRoleInListPresentation(
+        // eslint-disable-next-line react/display-name
+        React.forwardRef( function(props, ref)
         {
-          return values[0] ? values[0] : "New Chat";
-        }
-        return  <PR.View viewname="allProperties">
-                  <PR.PSView.Consumer>
-                    {value => <li
-                      role="listitem"
-                      ref={ref}
-                      aria-label={alabel(value.propval(props.labelProperty))}>
-                        <PR.PerspectivesLink linktext={chatTitle(value)}/>
-                      </li> }
-                  </PR.PSView.Consumer>
-                </PR.View>;
-      }
-      ) );
+          return <a href="#" ref={ref} tabIndex={props.tabIndex} aria-label={props["aria-label"]}>{chatTitle(props.propval("Title"))}</a>;
+        })),
+      [PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]
+    );
 
     // The header, including a button to create a new chat instance.
     return <>
@@ -73,7 +63,9 @@ export function chatApp_Chatter()
                 <Col>
                   <ul>
                     <PR.Rol rol="Chats">
-                      <SingleChat labelProperty="Title"/>
+                      <li>
+                        <SingleChat labelProperty="Title"/>
+                      </li>
                     </PR.Rol>
                   </ul>
                 </Col>
@@ -81,10 +73,8 @@ export function chatApp_Chatter()
             </>;
   }
 
-  function chatTitle(value)
+  function chatTitle(title)
   {
-      const title = value.propval("Title");
-      // const partner = value.propval("WithPartner");
       const partner = false;
       if (title[0])
       {
@@ -151,7 +141,13 @@ export function chat_Initiator()
 
   function SelectContact()
   {
-    const ContactCard = PR.roleInstance( PR.emptyCard( "allProperties", value => <p>Contact card of {value.propval("Voornaam")}.</p>) );
+    const ContactCard = PR.addBehaviour( PR.makeRoleInListPresentation(
+      function(psview)
+      {
+        return <Card><Card.Text>Contact card of {psview.propval("Voornaam")}.</Card.Text></Card>;
+      })
+      , [PR.addFillARole]);
+
     return <section aria-label="Chat partner selection">
         <Row className="mb-3">
           <Col lg={6}>
@@ -159,14 +155,20 @@ export function chat_Initiator()
               <Col><h4>This chat&apos;s partner</h4></Col>
             </Row>
             <Row>
-              <PR.CreateDropZone ariaLabel="Press space to drop the selected contact card to start chatting.">
-                <Card>
-                  <Card.Body>
-                    <p>Select a contact card on the right and drop it here to start chatting.</p>
-                  </Card.Body>
-                </Card>
-                <br/>
-              </PR.CreateDropZone>
+              <PR.PSRoleInstances.Consumer>{psroleinstances =>
+                <PR.CreateDropZone
+                  ariaLabel="Press space to drop the selected contact card to start chatting."
+                  bind={psroleinstances.bind}
+                  checkbinding={psroleinstances.checkbinding}
+                  >
+                  <Card>
+                    <Card.Body>
+                      <p>Select a contact card on the right and drop it here to start chatting.</p>
+                    </Card.Body>
+                  </Card>
+                  <br/>
+                </PR.CreateDropZone>
+              }</PR.PSRoleInstances.Consumer>
             </Row>
           </Col>
           <Col lg={6}>

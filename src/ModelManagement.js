@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; //5
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -23,28 +23,23 @@ export function modelManagementApp_Manager()
 
   function ModelsAndRepositories()
   {
-    // eslint-disable-next-line react/display-name
-    const SingleManagedModel = PR.roleInstance( React.forwardRef((props, ref) =>
-          <PR.View viewname="allProperties">
-            <PR.PSView.Consumer>
-            {
-              value =>  <li
-                          role="listitem"
-                          ref={ref}
-                          aria-label={value.propval(props.labelProperty) || "New Managed Model"}>
-                            <PR.PerspectivesLink linktext={modelTitle(value)}/>
-                        </li>
-            }
-            </PR.PSView.Consumer>
-          </PR.View>
-      ) );
+    const SingleManagedModel = PR.addBehaviour(
+      PR.makeRoleInListPresentation(
+        // eslint-disable-next-line react/display-name
+        React.forwardRef( function(props, ref)
+        {
+          return <a ref={ref} tabIndex={props.tabIndex} aria-label={props["aria-label"][0]}>{props["aria-label"][0] || "New Managed Model"}</a>;
+        })),
+      [PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]
+    );
+
     return (<>
               <Row ref={modelListRef}>
                 <Col>
                   <h4 id="managedModelsId">Models</h4>
                 </Col>
                 <Col className="text-right">
-                  <PR.Rol rol="Manager">
+                  <PR.RoleInstance role="Manager">
                     <PR.PSRol.Consumer>
                       {
                         props => <PR.CreateContext contextname="model:ModelManagement$ManagedModel" rolname="Models">
@@ -53,7 +48,7 @@ export function modelManagementApp_Manager()
                                  </PR.CreateContext>
                       }
                     </PR.PSRol.Consumer>
-                  </PR.Rol>
+                  </PR.RoleInstance>
                 </Col>
               </Row>
               {/*The actual list of models.*/}
@@ -61,7 +56,9 @@ export function modelManagementApp_Manager()
                 <Col>
                   <ul>
                     <PR.Rol rol="Models">
-                      <SingleManagedModel labelProperty="Name"/>
+                      <li>
+                        <SingleManagedModel labelProperty="Name"/>
+                      </li>
                     </PR.Rol>
                   </ul>
                 </Col>
@@ -78,19 +75,6 @@ export function modelManagementApp_Manager()
               </Row>
             </>
     );
-  }
-
-  function modelTitle(value)
-  {
-      const title = value.propval("Name");
-      if (title[0])
-      {
-        return title[0];
-      }
-      else
-      {
-        return "New model";
-      }
   }
 
   function CreateButton (props)
@@ -128,6 +112,11 @@ export function managedModel_Author()
       return <Card.Text>Last reload at: {lastReloadTime.toLocaleTimeString('en-UK')}</Card.Text>;
     }
   }
+  const RoleCard = PR.addBehaviour( PR.NameDescriptionCard,
+    [ PR.addRemoveRoleFromContext
+    , PR.addFillARole
+    ]);
+
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
             <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all models"/></Col></Row>
             <Row>
@@ -140,9 +129,18 @@ export function managedModel_Author()
                 <Card>
                   <Card.Header>Model description</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="ModelDescription" allowExtension={true} ariaLabel="Drop a Model role here.">
-                      <PR.SimpleCardForRole labelProperty="Name" />
-                    </PR.Rol>
+                    <PR.RoleInstance role="ModelDescription">
+                      <PR.PSRol.Consumer>{ psrol =>
+                        <PR.CreateDropZone
+                          ariaLabel="Drop a Model role here"
+                          bind={psrol.bind}
+                          checkbinding={psrol.checkbinding}
+                          >
+                          <p>Drop a Model role here</p>
+                        </PR.CreateDropZone>
+                      }</PR.PSRol.Consumer>
+                      <RoleCard labelProperty="Name" />
+                    </PR.RoleInstance>
                   </Card.Body>
                 </Card>
               </Col>
@@ -152,9 +150,18 @@ export function managedModel_Author()
                 <Card>
                   <Card.Header>Repository for this model</Card.Header>
                   <Card.Body>
-                    <PR.Rol rol="Repository" allowExtension={true} ariaLabel="Drop a Repository role here.">
-                      <PR.SimpleCardForRole labelProperty="Name" />
-                    </PR.Rol>
+                    <PR.RoleInstance role="Repository">
+                      <PR.PSRol.Consumer>{ psrol =>
+                        <PR.CreateDropZone
+                          ariaLabel="Drop a Repository role here"
+                          bind={psrol.bind}
+                          checkbinding={psrol.checkbinding}
+                          >
+                          <p>Drop a Repository role here</p>
+                        </PR.CreateDropZone>
+                      }</PR.PSRol.Consumer>
+                      <RoleCard labelProperty="Name" />
+                    </PR.RoleInstance>
                   </Card.Body>
                 </Card>
               </Col>

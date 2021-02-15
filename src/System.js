@@ -5,7 +5,6 @@ const React = require("react");
 import
   { PSRoleInstances
   , AppContext
-  , SimpleCardForRole
   , RoleTable
   , PerspectivesContainer
   , RoleInstances
@@ -14,12 +13,27 @@ import
   , RoleForm
   , LocalRoleSpecialisation
   , ViewIncomingInvitation
+  , NameDescriptionCard
+  , addBehaviour
+  , addFillARole
+  , addRemoveRoleFromContext
+  , addOpenContextOrRoleForm
   } from "perspectives-react";
 
 import {Row, Col, Tabs, Tab} from "react-bootstrap";
 
 export function perspectivesSystem_User()
 {
+  const RepoCard = addBehaviour( NameDescriptionCard,
+    [ addFillARole
+    ]);
+
+    const InUseCard = addBehaviour( NameDescriptionCard,
+      [ addFillARole
+      , addRemoveRoleFromContext
+      , addOpenContextOrRoleForm
+      ]);
+
   return <PerspectivesContainer role="application" aria-labelledby="systemId">
         <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
           <Tab eventKey="apps" title="Apps">
@@ -31,7 +45,7 @@ export function perspectivesSystem_User()
                     <NoInstancesSwitcher>
                       <p>Drop a model here</p>
                       <RoleInstanceIterator>
-                        <SimpleCardForRole labelProperty="Name"/>
+                        <InUseCard labelProperty="Name"/>
                       </RoleInstanceIterator>
                     </NoInstancesSwitcher>
                   </ModelDropZone>
@@ -43,7 +57,7 @@ export function perspectivesSystem_User()
                   <NoInstancesSwitcher>
                     <p>Did not retrieve any models from your repository(ies). Maybe you have no internet connection?</p>
                     <RoleInstanceIterator>
-                      <SimpleCardForRole labelProperty="Name"/>
+                      <RepoCard labelProperty="Name"/>
                     </RoleInstanceIterator>
                   </NoInstancesSwitcher>
                 </RoleInstances>
