@@ -156,7 +156,7 @@ export function chat_Initiator()
             </Row>
             <Row>
               <PR.PSRoleInstances.Consumer>{psroleinstances =>
-                <PR.CreateDropZone
+                <PR.RoleDropZone
                   ariaLabel="Press space to drop the selected contact card to start chatting."
                   bind={psroleinstances.bind}
                   checkbinding={psroleinstances.checkbinding}
@@ -167,7 +167,7 @@ export function chat_Initiator()
                     </Card.Body>
                   </Card>
                   <br/>
-                </PR.CreateDropZone>
+                </PR.RoleDropZone>
               }</PR.PSRoleInstances.Consumer>
             </Row>
           </Col>

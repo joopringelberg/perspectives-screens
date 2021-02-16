@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 50
+// The screen for model:System$PerspectivesSystem. 51
 
 const React = require("react");
 
@@ -83,7 +83,7 @@ export function perspectivesSystem_User()
 // This ModelDropZone is specialised for System. To import a model, we just need to
 // check the binding of the external role of the model description. The model then
 // will load on the fly.
-// The more general case of a CreateDropZone must support explicit dropping.
+// The more general case of a RoleDropZone must support explicit dropping.
 ////////////////////////////////////////////////////////////////////////////////
 class ModelDropZone extends React.PureComponent
 {

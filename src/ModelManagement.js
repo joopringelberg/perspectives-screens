@@ -115,6 +115,8 @@ export function managedModel_Author()
   const RoleCard = PR.addBehaviour( PR.NameDescriptionCard,
     [ PR.addRemoveRoleFromContext
     , PR.addFillARole
+    , PR.addRemoveFiller
+    , PR.addFillWithRole
     ]);
 
   return (<Container className="border border-secondary rounded p-3 mt-3"  role="application" aria-labelledby="managedModelId">
@@ -131,13 +133,13 @@ export function managedModel_Author()
                   <Card.Body>
                     <PR.RoleInstance role="ModelDescription">
                       <PR.PSRol.Consumer>{ psrol =>
-                        <PR.CreateDropZone
+                        <PR.RoleDropZone
                           ariaLabel="Drop a Model role here"
                           bind={psrol.bind}
                           checkbinding={psrol.checkbinding}
                           >
                           <p>Drop a Model role here</p>
-                        </PR.CreateDropZone>
+                        </PR.RoleDropZone>
                       }</PR.PSRol.Consumer>
                       <RoleCard labelProperty="Name" />
                     </PR.RoleInstance>
@@ -152,13 +154,13 @@ export function managedModel_Author()
                   <Card.Body>
                     <PR.RoleInstance role="Repository">
                       <PR.PSRol.Consumer>{ psrol =>
-                        <PR.CreateDropZone
+                        <PR.RoleDropZone
                           ariaLabel="Drop a Repository role here"
                           bind={psrol.bind}
                           checkbinding={psrol.checkbinding}
                           >
                           <p>Drop a Repository role here</p>
-                        </PR.CreateDropZone>
+                        </PR.RoleDropZone>
                       }</PR.PSRol.Consumer>
                       <RoleCard labelProperty="Name" />
                     </PR.RoleInstance>
