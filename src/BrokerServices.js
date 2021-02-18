@@ -20,7 +20,12 @@ export function brokerServices_Guest()
               </Row>
               <Row>
                 <Col>
-                  <PR.RoleTable viewname="allProperties" roletype="ManagedBrokers" cardcolumn="Name" contexttocreate="model:BrokerServices$BrokerService"/>
+                  <PR.RoleTable
+                  viewname="allProperties"
+                  roletype="ManagedBrokers"
+                  cardcolumn="Name"
+                  contexttocreate="model:BrokerServices$BrokerService"
+                  behaviours={[PR.addOpenContextOrRoleForm]}/>
                 </Col>
               </Row>
               <Row>
@@ -30,7 +35,12 @@ export function brokerServices_Guest()
               </Row>
               <Row>
                 <Col>
-                  <PR.RoleTable viewname="Account" roletype="Contracts" cardcolumn="LastNameOfAccountHolder" createButton={false}/>
+                  <PR.RoleTable
+                  viewname="Account"
+                  roletype="Contracts"
+                  cardcolumn="LastNameOfAccountHolder"
+                  createButton={false}
+                  behaviours={[PR.addOpenContextOrRoleForm]}/>
                 </Col>
               </Row>
             </>
@@ -58,7 +68,12 @@ export function brokerService_Administrator()
             </Row>
             <Row className="pb-3 pt-2">
               <Col>
-                <PR.RoleTable viewname="Account" roletype="Accounts" cardcolumn="FirstNameOfAccountHolder" contexttocreate="model:BrokerServices$BrokerContract"/>
+                <PR.RoleTable
+                  viewname="Account"
+                  roletype="Accounts"
+                  cardcolumn="FirstNameOfAccountHolder"
+                  contexttocreate="model:BrokerServices$BrokerContract"
+                  behaviours={[PR.addOpenContextOrRoleForm]}/>
               </Col>
             </Row>
           </PR.PerspectivesContainer>;

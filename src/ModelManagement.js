@@ -70,7 +70,7 @@ export function modelManagementApp_Manager()
               </Row>
               <Row>
                 <Col>
-                  <PR.RoleTable viewname="allProperties" roletype="Repository" cardcolumn="Name"/>
+                  <PR.RoleTable viewname="allProperties" roletype="Repository" cardcolumn="Name" behaviours={[PR.addRemoveRoleFromContext, PR.addFillARole]}/>
                 </Col>
               </Row>
             </>

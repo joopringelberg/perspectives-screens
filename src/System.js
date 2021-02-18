@@ -70,7 +70,11 @@ export function perspectivesSystem_User()
           <Tab eventKey="invitations" title="Pending Invitations">
           <Row>
             <Col>
-              <RoleTable viewname="ForInvitee" roletype="PendingInvitations" cardcolumn="InviterLastName"/>
+              <RoleTable 
+                viewname="ForInvitee"
+                roletype="PendingInvitations"
+                cardcolumn="InviterLastName"
+                behaviours={[addOpenContextOrRoleForm]}/>
             </Col>
           </Row>
           </Tab>
