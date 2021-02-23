@@ -70,7 +70,7 @@ export function perspectivesSystem_User()
           <Tab eventKey="invitations" title="Pending Invitations">
           <Row>
             <Col>
-              <RoleTable 
+              <RoleTable
                 viewname="ForInvitee"
                 roletype="PendingInvitations"
                 cardcolumn="InviterLastName"
@@ -129,9 +129,9 @@ class ModelDropZone extends React.PureComponent
       }
   }
 
-  handleDrop (psrol)
+  handleDrop ({roleData /*, addedBehaviour*/})
   {
-    this.context.checkbinding( psrol, function(){} );
+    this.context.checkbinding( roleData, function(){} );
   }
 
   render ()
