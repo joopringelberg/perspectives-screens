@@ -4,7 +4,6 @@ const EsmWebpackPlugin = require("@purtuga/esm-webpack-plugin");
 module.exports = {
   entry:
     { System: path.join(__dirname, "src/System.js" )
-    , TestBotActie: path.join(__dirname, "src/TestBotActie.js" )
     , SimpleChat: path.join(__dirname, "src/SimpleChat.js" )
     , ModelManagement: path.join(__dirname, "src/ModelManagement.js" )
     , BrokerServices:  path.join(__dirname, "src/BrokerServices.js" )
