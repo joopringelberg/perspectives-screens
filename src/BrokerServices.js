@@ -25,7 +25,7 @@ export function brokerServices_Guest()
                   roletype="ManagedBrokers"
                   cardcolumn="Name"
                   contexttocreate="model:BrokerServices$BrokerService"
-                  behaviours={[PR.addOpenContextOrRoleForm]}/>
+                  behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
               <Row>
@@ -40,7 +40,7 @@ export function brokerServices_Guest()
                   roletype="Contracts"
                   cardcolumn="LastNameOfAccountHolder"
                   createButton={false}
-                  behaviours={[PR.addOpenContextOrRoleForm]}/>
+                  behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
             </>
@@ -73,7 +73,7 @@ export function brokerService_Administrator()
                   roletype="Accounts"
                   cardcolumn="FirstNameOfAccountHolder"
                   contexttocreate="model:BrokerServices$BrokerContract"
-                  behaviours={[PR.addOpenContextOrRoleForm]}/>
+                  behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
               </Col>
             </Row>
           </PR.PerspectivesContainer>;
