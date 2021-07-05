@@ -1,4 +1,4 @@
-import React from "react"; // ###81###
+import React from "react"; // ###83###
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -142,10 +142,12 @@ export function chat_Initiator()
   function SelectContact()
   {
     const ContactCard = PR.addBehaviour( PR.makeRoleInListPresentation(
-      function(psview)
+      // eslint-disable-next-line react/display-name
+      React.forwardRef( function(props, ref)
       {
-        return <Card><Card.Text>Contact card of {psview.propval("Voornaam")}.</Card.Text></Card>;
-      })
+        // eslint-disable-next-line react/prop-types
+        return <Card ref={ref} tabIndex={props.tabIndex}><Card.Text>Contact card of {props.propval("Voornaam")}.</Card.Text></Card>;
+      }))
       , [PR.addFillARole]);
 
     return <section aria-label="Chat partner selection">
@@ -177,10 +179,14 @@ export function chat_Initiator()
             </Row>
             <Row>
               <Col>
-                <PR.Rol rol="PotentialPartners">
+              <PR.RoleInstances rol="PotentialPartners">
+                <PR.NoInstancesSwitcher>
                   <p>You seem to have no contacts. Try inviting someone!</p>
-                  <ContactCard labelProperty="Voornaam"/>
-                </PR.Rol>
+                  <PR.RoleInstanceIterator>
+                    <ContactCard labelProperty="Voornaam"/>
+                  </PR.RoleInstanceIterator>
+                </PR.NoInstancesSwitcher>
+              </PR.RoleInstances>
               </Col>
             </Row>
           </Col>

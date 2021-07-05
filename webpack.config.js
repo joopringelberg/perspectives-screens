@@ -7,6 +7,7 @@ module.exports = {
     , SimpleChat: path.join(__dirname, "src/SimpleChat.js" )
     , ModelManagement: path.join(__dirname, "src/ModelManagement.js" )
     , BrokerServices:  path.join(__dirname, "src/BrokerServices.js" )
+    , Competition: path.join(__dirname, "src/Competition.js" )
   },
   output: {
       filename: '[name].js',

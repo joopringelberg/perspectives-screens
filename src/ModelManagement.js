@@ -218,7 +218,7 @@ export function managedModel_Author()
                             file.text().then( source => psview.propset( "ArcSource", source ) );
                           }}
                         extension="arc">
-                        <Card tabIndex="-1">
+                        <Card> 
                           <Card.Header>Arc file path</Card.Header>
                           <Card.Body>
                             { psview.propval( "ArcSource")[0] ? psview.propval( "ArcSource")[0].match(/[^\r\n]+/g)[0] : "Drop .arc file here, or click / select + press space to open file selector."}
