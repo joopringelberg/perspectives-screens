@@ -90,13 +90,13 @@ export function modelManagementApp_Manager()
     { binding: PropTypes.string
     };
 
-  return  <PR.PerspectivesContainer
+  return  <Container
             className="border border-secondary rounded p-3 mt-3"
             role="application"
             aria-labelledby="managedModelsId"
           >
             <ModelsAndRepositories/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function managedModel_Author()
@@ -218,7 +218,7 @@ export function managedModel_Author()
                             file.text().then( source => psview.propset( "ArcSource", source ) );
                           }}
                         extension="arc">
-                        <Card> 
+                        <Card>
                           <Card.Header>Arc file path</Card.Header>
                           <Card.Body>
                             { psview.propval( "ArcSource")[0] ? psview.propval( "ArcSource")[0].match(/[^\r\n]+/g)[0] : "Drop .arc file here, or click / select + press space to open file selector."}

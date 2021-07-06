@@ -103,13 +103,13 @@ export function chatApp_Chatter()
     , create: PropTypes.func
     };
 
-  return  <PR.PerspectivesContainer
+  return  <Container
             className="border border-secondary rounded p-3 mt-3"
             role="application"
             aria-labelledby="simpleChatId"
           >
             <ListOfChats/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 // model:SimpleChat$Chat$Initiator

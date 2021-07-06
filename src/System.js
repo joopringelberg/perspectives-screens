@@ -6,7 +6,6 @@ import
   { PSRoleInstances
   , AppContext
   , RoleTable
-  , PerspectivesContainer
   , RoleInstances
   , NoInstancesSwitcher
   , RoleInstanceIterator
@@ -20,7 +19,7 @@ import
   , addOpenContextOrRoleForm
   } from "perspectives-react";
 
-import {Row, Col, Tabs, Tab} from "react-bootstrap";
+import {Row, Col, Tabs, Tab, Container} from "react-bootstrap";
 
 export function perspectivesSystem_User()
 {
@@ -34,7 +33,7 @@ export function perspectivesSystem_User()
       , addOpenContextOrRoleForm
       ]);
 
-  return <PerspectivesContainer role="application" aria-labelledby="systemId">
+  return <Container role="application" aria-labelledby="systemId">
         <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
           <Tab eventKey="apps" title="Apps">
             <Row>
@@ -79,7 +78,7 @@ export function perspectivesSystem_User()
           </Row>
           </Tab>
         </Tabs>
-      </PerspectivesContainer>;
+      </Container>;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -168,9 +167,9 @@ ModelDropZone.contextType = PSRoleInstances;
 
 export function invitation_Guest()
 {
-  return  <PerspectivesContainer>
+  return  <Container>
             <LocalRoleSpecialisation ofrole="Invitee">
               <ViewIncomingInvitation/>
             </LocalRoleSpecialisation>
-          </PerspectivesContainer>;
+          </Container>;
 }

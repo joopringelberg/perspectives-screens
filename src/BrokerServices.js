@@ -5,6 +5,7 @@ import * as PR from "perspectives-react";
 import
   { Row
   , Col
+  , Container
 } from "react-bootstrap";
 
 
@@ -47,14 +48,14 @@ export function brokerServices_Guest()
     );
   }
 
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="managedModelBrokerId">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="managedModelBrokerId">
             <BrokersAndContracts/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function brokerService_Administrator()
 {
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row className="pb-3 pt-2">
               <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
             </Row>
@@ -76,12 +77,12 @@ export function brokerService_Administrator()
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
               </Col>
             </Row>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function brokerContract_Administrator()
 {
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row className="pb-3 pt-2">
               <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
             </Row>
@@ -91,12 +92,12 @@ export function brokerContract_Administrator()
             <PR.RoleForm rolename="Administrator" viewname="Confirmation"/>
             <PR.RoleForm rolename="AccountHolder" viewname="ForAdministrator"/>
             <PR.Invitation/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function brokerContract_AccountHolder()
 {
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row className="pb-3 pt-2">
               <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
             </Row>
@@ -105,5 +106,5 @@ export function brokerContract_AccountHolder()
             </Row>
             <PR.RoleForm rolename="External" viewname="ForAccountHolder"/>
             <PR.RoleForm rolename="AccountHolder" viewname="ForAccountHolder"/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }

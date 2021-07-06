@@ -5,6 +5,7 @@ import * as PR from "perspectives-react";
 import
   { Row
   , Col
+  , Container
   } from "react-bootstrap";
 
 export function competitionApp_Manager()
@@ -31,9 +32,9 @@ export function competitionApp_Manager()
     );
   }
 
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="competitionId">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="competitionId">
             <Competitions/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function competition_Manager()
@@ -80,10 +81,10 @@ export function competition_Manager()
     );
   }
 
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="subCompetitionId">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="subCompetitionId">
             <SubCompetitions/>
             <Captains/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function competition_Captains()
@@ -107,9 +108,9 @@ export function competition_Captains()
             </>
     );
   }
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="CaptainsId">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="CaptainsId">
             <Captains/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
 
 export function subCompetition_Manager()
@@ -135,18 +136,18 @@ export function subCompetition_Manager()
             </>
     );
   }
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="teamId">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="teamId">
             <Teams/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 
 }
 
 export function team_Manager()
 {
-  return  <PR.PerspectivesContainer className="border border-secondary rounded p-3 mt-3" role="application">
+  return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row>
               <Col><h3>Team</h3></Col>
             </Row>
             <PR.RoleForm rolename="Captain" viewname="allProperties"/>
-          </PR.PerspectivesContainer>;
+          </Container>;
 }
