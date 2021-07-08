@@ -146,7 +146,7 @@ export function chat_Initiator()
       React.forwardRef( function(props, ref)
       {
         // eslint-disable-next-line react/prop-types
-        return <Card ref={ref} tabIndex={props.tabIndex}><Card.Text>Contact card of {props.propval("Voornaam")}.</Card.Text></Card>;
+        return <Card ref={ref} tabIndex={props.tabIndex}><Card.Text>Contact card of {props.propval("Achternaam")}.</Card.Text></Card>;
       }))
       , [PR.addFillARole]);
 
@@ -183,7 +183,7 @@ export function chat_Initiator()
                 <PR.NoInstancesSwitcher>
                   <p>You seem to have no contacts. Try inviting someone!</p>
                   <PR.RoleInstanceIterator>
-                    <ContactCard labelProperty="Voornaam"/>
+                    <ContactCard labelProperty="Achternaam"/>
                   </PR.RoleInstanceIterator>
                 </PR.NoInstancesSwitcher>
               </PR.RoleInstances>
@@ -314,7 +314,6 @@ export function chat_Initiator()
   // We could use a PerspectivesContainer, but we do not navigate to deeper nested contexts. However, we do deploy the
   // BackButton that belongs to the PerspectivesContainer.
   return <Container className="bg-light border rounded rounded p-3">
-            <Row><Col className="pb-3" ><PR.BackButton buttontext="Back to all chats"/></Col></Row>
             <Title/>
             <PR.RoleInstances rol="Partner">
                 <PR.NoInstancesSwitcher>

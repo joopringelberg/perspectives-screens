@@ -56,9 +56,6 @@ export function brokerServices_Guest()
 export function brokerService_Administrator()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
-            <Row className="pb-3 pt-2">
-              <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
-            </Row>
             <Row>
               <Col><h3>Broker Service</h3></Col>
             </Row>
@@ -83,9 +80,6 @@ export function brokerService_Administrator()
 export function brokerContract_Administrator()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
-            <Row className="pb-3 pt-2">
-              <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
-            </Row>
             <Row>
               <Col><h3>Broker Contract</h3></Col>
             </Row>
@@ -98,9 +92,6 @@ export function brokerContract_Administrator()
 export function brokerContract_AccountHolder()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
-            <Row className="pb-3 pt-2">
-              <Col><PR.BackButton buttontext="Back to Brokers and Contracts"/></Col>
-            </Row>
             <Row>
               <Col><h3>Broker Contract</h3></Col>
             </Row>
