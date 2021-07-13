@@ -22,9 +22,11 @@ export function competitionApp_Manager()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  roletype="Competitions"
                   cardcolumn="Name"
+                  roletype="Competitions"
                   contexttocreate="model:Competition$Competition"
+                  // createButton
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
@@ -51,9 +53,11 @@ export function competition_Manager()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  roletype="SubCompetitions"
                   cardcolumn="Name"
+                  roletype="SubCompetitions"
                   contexttocreate="model:Competition$SubCompetition"
+                  // createButton
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
@@ -73,8 +77,13 @@ export function competition_Manager()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
+                  cardcolumn="Achternaam"
                   roletype="Captains"
-                  cardcolumn="Achternaam"/>
+                  // contexttocreate
+                  // createButton
+                  // roleRepresentation
+                  // behaviours
+                  />
                 </Col>
               </Row>
             </>
@@ -101,8 +110,13 @@ export function competition_Captains()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
+                  cardcolumn="Achternaam"
                   roletype="Captains"
-                  cardcolumn="Achternaam"/>
+                  // contexttocreate
+                  // createButton
+                  // roleRepresentation
+                  // behaviours
+                  />
                 </Col>
               </Row>
             </>
@@ -127,9 +141,11 @@ export function subCompetition_Manager()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  roletype="Teams"
                   cardcolumn="Name"
+                  roletype="Teams"
                   contexttocreate="model:Competition$Team"
+                  // createButton
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>

@@ -23,9 +23,10 @@ export function brokerServices_Guest()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  roletype="ManagedBrokers"
                   cardcolumn="Name"
+                  roletype="ManagedBrokers"
                   contexttocreate="model:BrokerServices$BrokerService"
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
@@ -38,9 +39,11 @@ export function brokerServices_Guest()
                 <Col>
                   <PR.RoleTable
                   viewname="Account"
-                  roletype="Contracts"
                   cardcolumn="LastNameOfAccountHolder"
+                  roletype="Contracts"
                   createButton={false}
+                  // contexttocreate
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
               </Row>
@@ -68,9 +71,11 @@ export function brokerService_Administrator()
               <Col>
                 <PR.RoleTable
                   viewname="Account"
-                  roletype="Accounts"
                   cardcolumn="FirstNameOfAccountHolder"
+                  roletype="Accounts"
                   contexttocreate="model:BrokerServices$BrokerContract"
+                  // createButton
+                  // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
               </Col>
             </Row>
