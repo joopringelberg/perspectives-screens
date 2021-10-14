@@ -8,6 +8,7 @@ module.exports = {
     , ModelManagement: path.join(__dirname, "src/ModelManagement.js" )
     , BrokerServices:  path.join(__dirname, "src/BrokerServices.js" )
     , Competition: path.join(__dirname, "src/Competition.js" )
+    , CouchdbManagement: path.join(__dirname, "src/CouchdbManagement.js")
   },
   output: {
       filename: '[name].js',
