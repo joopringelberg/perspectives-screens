@@ -1,6 +1,6 @@
 {
   "name": "perspectives-screens",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "A collection of modules, each holding a React-based screen for a context of the base Perspectives model that can be loaded independently by InPlace.",
   "main": "index.js",
   "private": true,
@@ -15,7 +15,7 @@
   "peerDependencies": {
     "@primer/octicons-react": "^11.0.0",
     "bootstrap": "^4.3.1",
-    "perspectives-react": "https://github.com/joopringelberg/perspectives-react.git#v0.13.0",
+    "perspectives-react": "https://github.com/joopringelberg/perspectives-react.git#v0.14.0",
     "react-bootstrap": "^1.4.0"
   },
   "devDependencies": {
