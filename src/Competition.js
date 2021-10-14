@@ -1,4 +1,4 @@
-import React from 'react'; //1
+import React from 'react'; //2
 
 import * as PR from "perspectives-react";
 
@@ -25,7 +25,7 @@ export function competitionApp_Manager()
                   cardcolumn="Name"
                   roletype="Competitions"
                   contexttocreate="model:Competition$Competition"
-                  // createButton
+                  createButton={true}
                   // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
@@ -56,7 +56,7 @@ export function competition_Manager()
                   cardcolumn="Name"
                   roletype="SubCompetitions"
                   contexttocreate="model:Competition$SubCompetition"
-                  // createButton
+                  createButton={true}
                   // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
@@ -144,7 +144,7 @@ export function subCompetition_Manager()
                   cardcolumn="Name"
                   roletype="Teams"
                   contexttocreate="model:Competition$Team"
-                  // createButton
+                  createButton={true}
                   // roleRepresentation
                   behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
                 </Col>
