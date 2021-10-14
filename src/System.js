@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 59
+// The screen for model:System$PerspectivesSystem. 61
 
 const React = require("react");
 
@@ -17,8 +17,24 @@ import {Row, Col, Tabs, Tab, Container} from "react-bootstrap";
 export function perspectivesSystem_User()
 {
   return <Container role="application" aria-labelledby="systemId">
-        <Tabs defaultActiveKey="apps" id="uncontrolled-tab-example">
-          <Tab eventKey="apps" title="Apps">
+        <Tabs defaultActiveKey="chooseapp" id="uncontrolled-tab-example">
+          <Tab eventKey="chooseapp" title="Installed Apps">
+            <Row>
+              <Col className="border p-3 ">
+                <h4>Apps</h4><br/>
+                <RoleTable
+                  viewname="allProperties"
+                  cardcolumn="Name"
+                  roletype="IndexedContexts"
+                  // contexttocreate
+                  createButton={false}
+                  // roleRepresentation
+                  behaviours={[addOpenContextOrRoleForm, addFillARole]}
+                />
+              </Col>
+            </Row>
+          </Tab>
+          <Tab eventKey="apps" title="Add Apps">
             <Row>
               <Col className="border p-3 ">
                 <h4>In use</h4><br/>
@@ -30,7 +46,6 @@ export function perspectivesSystem_User()
                   createButton={false}
                   // roleRepresentation
                   behaviours={[addOpenContextOrRoleForm, addFillARole, addRemoveRoleFromContext]}
-                  noinstancesmessage="Drop a model from the table below here to start using it."
                 />
               </Col>
             </Row>
@@ -45,7 +60,6 @@ export function perspectivesSystem_User()
                   createButton={false}
                   // roleRepresentation
                   behaviours={[addOpenContextOrRoleForm, addFillARole]}
-                  noinstancesmessage="Did not retrieve any models from your repository(ies). Maybe you have no internet connection?"
                 />
               </Col>
             </Row>
@@ -66,6 +80,16 @@ export function perspectivesSystem_User()
                 behaviours={[addOpenContextOrRoleForm]}/>
             </Col>
           </Row>
+          </Tab>
+          <Tab eventKey="notifications" title="All Notifications">
+            <RoleTable
+              viewname="allProperties"
+              cardcolumn="Message"
+              roletype="model:System$ContextWithNotification$Notifications"
+              //contexttocreate
+              // createButton
+              // roleRepresentation
+              behaviours={[addRemoveRoleFromContext]}/>
           </Tab>
         </Tabs>
       </Container>;
