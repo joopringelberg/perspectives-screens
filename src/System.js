@@ -1,4 +1,4 @@
-// The screen for model:System$PerspectivesSystem. 61
+// The screen for model:System$PerspectivesSystem. 63
 
 const React = require("react");
 
@@ -80,6 +80,16 @@ export function perspectivesSystem_User()
                 behaviours={[addOpenContextOrRoleForm]}/>
             </Col>
           </Row>
+          </Tab>
+          <Tab eventKey="contacts" title="Contacts">
+            <RoleTable
+              viewname="VolledigeNaam"
+              cardcolumn="Achternaam"
+              roletype="model:System$PerspectivesSystem$Contacts"
+              //contexttocreate
+              // createButton
+              // roleRepresentation
+              behaviours={[addFillARole]}/>
           </Tab>
           <Tab eventKey="notifications" title="All Notifications">
             <RoleTable
