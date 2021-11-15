@@ -52,6 +52,7 @@ export function perspectivesSystem_User()
             <Row>
               <Col className="border p-3">
                 <h4>In Repository</h4>
+                <RoleForm rolename="External" viewname="ShowLibraries"/>
                 <RoleTable
                   viewname="ModelPresentation"
                   cardcolumn="Name"
