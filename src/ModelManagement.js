@@ -11,7 +11,7 @@ import
   , Card
   } from "react-bootstrap";
 
-export function modelManagementApp_Manager()
+export function modelManagementApp_Manager_disabled()
 {
   // A ref to dispatch an event from.
   const modelListRef = React.createRef();
@@ -263,7 +263,7 @@ export function managedModel_Author()
 // Use like this: <Feedback message={psview.propval("CrlFeedback")}/>.
 function Feedback( props )
 {
-  if (props.message[0] && props.message[0].match(/[\r\t]/))
+  if (props.message[0] && props.message[0].match(/.*[\r\t\n]/)) 
   {
     return <pre>{props.message[0]}</pre>;
   }
