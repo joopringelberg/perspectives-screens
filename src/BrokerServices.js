@@ -1,4 +1,4 @@
-import React from "react"; // ###11###
+import React from "react"; // ###13###
 
 import * as PR from "perspectives-react";
 
@@ -77,13 +77,13 @@ export function brokerService_Administrator()
                   contexttocreate="model:BrokerServices$BrokerContract"
                   createButton={true}
                   // roleRepresentation
-                  behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext]}/>
+                  behaviours={[PR.addOpenContextOrRoleForm, PR.addRemoveRoleFromContext, PR.addRemoveFiller]}/>
               </Col>
             </Row>
           </Container>;
 }
 
-export function brokerContract_Administrator()
+export function brokerContract_Administrator_disabled()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row>

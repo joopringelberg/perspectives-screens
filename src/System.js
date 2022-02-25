@@ -14,7 +14,7 @@ import
 
 import {Row, Col, Tabs, Tab, Container} from "react-bootstrap";
 
-export function perspectivesSystem_User()
+export function perspectivesSystem_User_uitgeschakeld()
 {
   return <Container role="application" aria-labelledby="systemId">
         <Tabs defaultActiveKey="chooseapp" id="uncontrolled-tab-example">

@@ -1,4 +1,4 @@
-import React from 'react'; //1
+import React from 'react'; //2
 
 import * as PR from "perspectives-react";
 
@@ -40,7 +40,7 @@ export function couchdbManagementApp_Manager()
 }
 
 
-export function couchdbServer_Admin()
+export function couchdbServer_Admin_uitgeschakeld()
 {
   function Repositories()
   {

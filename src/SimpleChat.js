@@ -1,4 +1,4 @@
-import React from "react"; // ###84###
+import React from "react"; // ###85###
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -16,7 +16,7 @@ import
 import "./SimpleChat.css";
 
 // model:SimpleChat$ChatApp$Chatter
-export function chatApp_Chatter()
+export function chatApp_Chatter_disabled()
 {
   // A ref to dispatch an event from.
   const chatListRef = React.createRef();
