@@ -95,7 +95,7 @@ export function brokerContract_Administrator_disabled()
           </Container>;
 }
 
-export function brokerContract_AccountHolder()
+export function brokerContract_AccountHolder_disabled()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application">
             <Row>
