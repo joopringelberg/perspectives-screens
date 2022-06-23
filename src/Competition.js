@@ -77,7 +77,7 @@ export function competition_Manager()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  cardcolumn="Achternaam"
+                  cardcolumn="LastName"
                   roletype="Captains"
                   // contexttocreate
                   // createButton
@@ -110,7 +110,7 @@ export function competition_Captains()
                 <Col>
                   <PR.RoleTable
                   viewname="allProperties"
-                  cardcolumn="Achternaam"
+                  cardcolumn="LastName"
                   roletype="Captains"
                   // contexttocreate
                   // createButton

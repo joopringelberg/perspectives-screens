@@ -66,7 +66,7 @@ export function perspectivesSystem_User_uitgeschakeld()
             </Row>
           </Tab>
           <Tab eventKey="user" title="User information">
-            <RoleForm rolename="User" viewname="VolledigeNaam" cardprop="Achternaam"/>
+            <RoleForm rolename="User" viewname="VolledigeNaam" cardprop="LastName"/>
           </Tab>
           <Tab eventKey="invitations" title="Pending Invitations">
           <Row>
@@ -85,7 +85,7 @@ export function perspectivesSystem_User_uitgeschakeld()
           <Tab eventKey="contacts" title="Contacts">
             <RoleTable
               viewname="VolledigeNaam"
-              cardcolumn="Achternaam"
+              cardcolumn="LastName"
               roletype="model:System$PerspectivesSystem$Contacts"
               //contexttocreate
               // createButton

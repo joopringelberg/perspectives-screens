@@ -1,4 +1,4 @@
-import React from "react"; // ###85###
+import React from "react"; // ###98###
 import PropTypes from "prop-types";
 
 import * as PR from "perspectives-react";
@@ -130,7 +130,7 @@ export function chat_Initiator()
                     </PR.PSView.Consumer>
                   </Col>
                   <Col sm="9">
-                    <Form.Text className="text-muted" id="TitleExplanation">
+                    <Form.Text className="text-muted" id="TitleExplanation">  
                       This title appears in the list of chats.
                     </Form.Text>
                   </Col>
@@ -146,7 +146,7 @@ export function chat_Initiator()
       React.forwardRef( function(props, ref)
       {
         // eslint-disable-next-line react/prop-types
-        return <Card ref={ref} tabIndex={props.tabIndex}><Card.Text>Contact card of {props.propval("Achternaam")}.</Card.Text></Card>;
+        return <Card ref={ref} tabIndex={props.tabIndex}><Card.Text>Contact card of {props.propval("LastName")}.</Card.Text></Card>;
       }))
       , [PR.addFillARole]);
 
@@ -183,7 +183,7 @@ export function chat_Initiator()
                 <PR.NoInstancesSwitcher>
                   <p>You seem to have no contacts. Try inviting someone!</p>
                   <PR.RoleInstanceIterator>
-                    <ContactCard labelProperty="Achternaam"/>
+                    <ContactCard labelProperty="LastName"/>
                   </PR.RoleInstanceIterator>
                 </PR.NoInstancesSwitcher>
               </PR.RoleInstances>
@@ -269,7 +269,7 @@ export function chat_Initiator()
                   <PR.PSView.Consumer>
                   {
                     view => <Form.Group as={Row} controlId="initiator">
-                        <Form.Label column sm="3">{view.propval("Voornaam")}:</Form.Label>
+                        <Form.Label column sm="3">{view.propval("FirstName")}:</Form.Label>
                         <Col sm="9">
                           <Form.Control aria-label="My text" aria-describedby="chatDescriptionID" defaultValue={view.propval("MyText")} onBlur={e => view.propset("MyText", e.target.value)} />
                         </Col>
@@ -293,12 +293,12 @@ export function chat_Initiator()
                   <PR.PSView.Consumer>
                   {
                     view => <Form.Group as={Row} controlId="partner">
-                      <Form.Label column sm="3">Response by {view.propval("Voornaam")}:</Form.Label>
+                      <Form.Label column sm="3">Response by {view.propval("FirstName")}:</Form.Label>
                         <Col sm="9">
                           <Nav.Item>
                             <Card className="mb-2">
                               <Card.Body>
-                                <Card.Text aria-label={"Response by " + view.propval("Voornaam")}>{view.propval("MyText")}</Card.Text>
+                                <Card.Text aria-label={"Response by " + view.propval("FirstName")}>{view.propval("MyText")}</Card.Text>
                               </Card.Body>
                             </Card>
                           </Nav.Item>

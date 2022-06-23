@@ -70,7 +70,7 @@ export function couchdbServer_Admin_uitgeschakeld()
               <h4>This Server</h4>
               <PR.RoleForm rolename="External" viewname="allProperties"/>
               <h4>My credentials on this server</h4>
-              <PR.RoleForm rolename="Admin" viewname="AdminProps" cardprop="Achternaam"/>
+              <PR.RoleForm rolename="Admin" viewname="AdminProps" cardprop="LastName"/>
               <Repositories/>
             </Container>;
 }
@@ -97,7 +97,7 @@ export function repository_Admin()
               <Col>
                 <PR.RoleTable
                 viewname="AuthorForAdmin"
-                cardcolumn="Voornaam"
+                cardcolumn="FirstName"
                 roletype="Authors"
                 createButton={true}
                 // roleRepresentation
@@ -108,7 +108,7 @@ export function repository_Admin()
               <Col>
                 <PR.RoleTable
                 viewname="allProperties"
-                cardcolumn="Voornaam"
+                cardcolumn="FirstName"
                 roletype="Accounts"
                 createButton={true}
                 // roleRepresentation
