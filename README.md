@@ -31,6 +31,10 @@ This project uses the Gulp plugin `screenuploader`, so after a build any newly b
 
 In order to run the Gulp task defined with this plugin, activate (in Atom) the package `gulp-control`. Then from the pane that this package opens, start and stop the task.
 
+In VsCode, press ctrl-shift-p and choose "Run task". Then choose the default Gulp task.
+
+As long as this task runs and webpack monitors the changes, new versions of the screen files will be uploaded automatically.
+
 ## Dependencies
 This project depends on the following other Perspectives projects:
 *  perspectives-proxy
