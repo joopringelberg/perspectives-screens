@@ -190,6 +190,7 @@ export function managedModel_Author()
                               function()
                               {
                                 setLastReloadTime(new Date());
+                                psview.propset("ArcFeedback", "reload");
                                 psview.propdel("ArcFeedback");
                               }
                             }>Reload Arc file</Button>
