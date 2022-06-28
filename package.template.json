@@ -15,7 +15,7 @@
   "peerDependencies": {
     "@primer/octicons-react": "^11.0.0",
     "bootstrap": "^4.3.1",
-    "perspectives-react": "https://github.com/joopringelberg/perspectives-react.git#v0.19.0",
+    "perspectives-react": "https://github.com/joopringelberg/perspectives-react.git#PERSPECTIVESREACT",
     "react-bootstrap": "^1.4.0"
   },
   "devDependencies": {
@@ -34,6 +34,6 @@
     "gulp": "^4.0.2",
     "eslint": "^7.13.0",
     "eslint-plugin-react": "^7.21.5",
-    "screenuploader": "git+https://github.com/joopringelberg/screenuploader.git#v1.1.0"
+    "screenuploader": "git+https://github.com/joopringelberg/screenuploader.git#SCREENUPLOADER"
   }
 }
