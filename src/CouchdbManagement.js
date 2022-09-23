@@ -8,7 +8,7 @@ import
   , Container
   } from "react-bootstrap";
 
-export function couchdbManagementApp_Manager()
+export function couchdbManagementApp_Manager_uitgeschakeld()
 {
   function CouchdbServers()
   {
@@ -75,7 +75,7 @@ export function couchdbServer_Admin_uitgeschakeld()
             </Container>;
 }
 
-export function repository_ServerAdmin()
+export function repository_ServerAdmin_uitgeschakeld()
 {
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="thisRepositoryId">
             <h4 id="thisRepositoryId">This Repository</h4>
@@ -84,7 +84,7 @@ export function repository_ServerAdmin()
           </Container>;
 }
 
-export function repository_Admin()
+export function repository_Admin_uitgeschakeld()
 {
   // Authors, Accounts, AvailableModels
   return  <Container className="border border-secondary rounded p-3 mt-3" role="application" aria-labelledby="thisRepositoryId">
