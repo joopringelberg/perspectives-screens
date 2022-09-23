@@ -5,7 +5,7 @@
 # * createPerspectivesLinks.sh
 # * package.json
 
-PERSPECTIVESREACT=v0.19.0
+PERSPECTIVESREACT=v0.20.0
 SCREENUPLOADER=v1.1.0
 
 sed "s/PERSPECTIVESREACT/${PERSPECTIVESREACT}/g;\
